@@ -1,0 +1,4 @@
+pass.txt
+*.key
+.env
+.env.local

@@ -19,10 +19,87 @@
     },
     config: {
       geminiApiKey: localStorage.getItem("editforge_gemini_key") || "",
-      supabaseUrl: localStorage.getItem("editforge_supabase_url") || "",
-      supabaseKey: localStorage.getItem("editforge_supabase_key") || ""
+      supabaseUrl: localStorage.getItem("editforge_supabase_url") || "https://bsiverhkcsjkaffueook.supabase.co",
+      supabaseKey: localStorage.getItem("editforge_supabase_key") || "sb_publishable_0YlTZVPBjXmz30Gctzq9KQ_Tyj_6u4M"
     }
   };
+
+  // Helper to obtain Supabase Client
+  function getSupabaseClient() {
+    if (window.supabase && state.config.supabaseUrl && state.config.supabaseKey) {
+      try {
+        return window.supabase.createClient(state.config.supabaseUrl, state.config.supabaseKey);
+      } catch (e) {
+        console.warn("Supabase init error:", e);
+      }
+    }
+    return null;
+  }
+
+  // Sync logbook with Supabase Cloud
+  async function syncFromSupabase() {
+    const client = getSupabaseClient();
+    if (!client) return;
+    try {
+      const { data, error } = await client
+        .from("quest_logs")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (!error && data && data.length > 0) {
+        state.user.logs = data.map(row => ({
+          id: row.id,
+          questId: row.quest_id,
+          questTitle: row.quest_title,
+          completedAt: row.completed_at || new Date(row.created_at).toLocaleDateString("pl-PL"),
+          timeSpent: row.time_spent || 25,
+          software: row.software || "CapCut",
+          clipUrl: row.clip_url || "Brak linku",
+          reflection: row.reflection || "",
+          aiScore: row.ai_score || 85,
+          xpEarned: row.xp_earned || 150
+        }));
+        state.user.completedQuests = state.user.logs.map(l => l.questId);
+        localStorage.setItem("editforge_logs", JSON.stringify(state.user.logs));
+        calculateTotalXp();
+        renderQuests();
+        renderLogbook();
+      }
+    } catch (err) {
+      console.warn("Supabase fetch failed, running on local storage:", err);
+    }
+  }
+
+  // Persist a log both locally and to Supabase
+  async function persistLog(newLog) {
+    state.user.logs.unshift(newLog);
+    if (!state.user.completedQuests.includes(newLog.questId)) {
+      state.user.completedQuests.push(newLog.questId);
+    }
+    localStorage.setItem("editforge_logs", JSON.stringify(state.user.logs));
+    calculateTotalXp();
+    renderQuests();
+    renderLogbook();
+
+    const client = getSupabaseClient();
+    if (client) {
+      try {
+        await client.from("quest_logs").insert([{
+          quest_id: newLog.questId,
+          quest_title: newLog.questTitle,
+          completed_at: newLog.completedAt,
+          time_spent: newLog.timeSpent,
+          software: newLog.software,
+          clip_url: newLog.clipUrl,
+          reflection: newLog.reflection,
+          ai_score: newLog.aiScore,
+          xp_earned: newLog.xpEarned
+        }]);
+      } catch (err) {
+        console.warn("Failed to insert log into Supabase:", err);
+      }
+    }
+  }
 
   // Seed sample logbook items if empty so recruiters see data immediately
   function initStorage() {
@@ -438,18 +515,10 @@
           xpEarned: state.currentQuest.xpReward
         };
 
-        state.user.logs.unshift(newLog);
-        if (!state.user.completedQuests.includes(state.currentQuest.id)) {
-          state.user.completedQuests.push(state.currentQuest.id);
-        }
-
-        localStorage.setItem("editforge_logs", JSON.stringify(state.user.logs));
-        calculateTotalXp();
-        renderQuests();
-        renderLogbook();
+        persistLog(newLog);
         closeQuestModal();
 
-        alert(`🎉 Brawo! Zadanie zapisane w Dzienniku. Zdobywasz +${state.currentQuest.xpReward} XP!`);
+        alert(`🎉 Brawo! Zadanie zapisane w Dzienniku (i zsynchronizowane z Supabase). Zdobywasz +${state.currentQuest.xpReward} XP!`);
       };
     }
   }
@@ -696,17 +765,8 @@
           xpEarned: quest.xpReward
         };
 
-        state.user.logs.unshift(newLog);
-        if (!state.user.completedQuests.includes(quest.id)) {
-          state.user.completedQuests.push(quest.id);
-        }
-
-        localStorage.setItem("editforge_logs", JSON.stringify(state.user.logs));
-        calculateTotalXp();
-        renderQuests();
-        renderLogbook();
-
-        alert(`🎉 Wynik audytu zapisany w Dzienniku! Przyznano +${quest.xpReward} XP.`);
+        persistLog(newLog);
+        alert(`🎉 Wynik audytu zapisany w Dzienniku (i w Supabase)! Przyznano +${quest.xpReward} XP.`);
         switchTab("tab-logbook");
       };
     }
@@ -906,6 +966,7 @@ ${state.user.logs.map((l, i) => `
     renderLogbook();
     initExportLogbook();
     initSettings();
+    syncFromSupabase();
   }
 
   // Run on DOM loaded
