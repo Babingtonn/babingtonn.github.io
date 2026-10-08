@@ -1,4 +1,4 @@
-// EditForge Application Controller
+﻿// EditForge Application Controller
 // Video Editor Dojo & Progression Engine
 
 (function () {
@@ -202,34 +202,6 @@
       const avg = Math.round(state.user.logs.reduce((acc, curr) => acc + (curr.aiScore || 80), 0) / state.user.logs.length);
       if (statAvgScoreEl) statAvgScoreEl.textContent = `${avg}%`;
     }
-  }
-
-  // ================= TIMECODE COUNTER (NLE EFFECT) =================
-  function startSessionTimer() {
-    const timerEl = document.getElementById("sessionTimer");
-    if (!timerEl) return;
-    let frames = 0;
-    let seconds = 14;
-    let minutes = 22;
-    let hours = 0;
-
-    setInterval(() => {
-      frames++;
-      if (frames >= 30) {
-        frames = 0;
-        seconds++;
-        if (seconds >= 60) {
-          seconds = 0;
-          minutes++;
-          if (minutes >= 60) {
-            minutes = 0;
-            hours++;
-          }
-        }
-      }
-      const pad = (n) => String(n).padStart(2, "0");
-      timerEl.textContent = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}:${pad(frames)}`;
-    }, 1000 / 30); // 30 FPS tick
   }
 
   // ================= TAB NAVIGATION =================
@@ -708,19 +680,20 @@
           <!-- Areas to Improve -->
           <div class="bg-white border border-brand-crimson p-4 space-y-2">
             <h4 class="font-mono font-bold text-brand-crimson flex items-center gap-1.5 uppercase tracking-wider text-xs">
-              <i data-lucide="alert-triangle" class="w-4 h-4 text-brand-crimson"></i> Wskazówki Starszego Montażysty
+              <i data-lucide="alert-triangle" class="w-4 h-4 text-brand-crimson"></i> Wskazówki do ${software}
             </h4>
             <ul class="space-y-1.5 text-brand-ink/90 font-sans">
               <li class="flex items-start gap-2">
                 <span class="text-brand-crimson font-bold">&bull;</span>
-                <span><strong>Płynność wejścia audio:</strong> Warto dodać mikro-fade-in (2 klatki) na początku sampla, aby uniknąć cyfrowego kliknięcia.</span>
+                <span><strong>Płynność wejścia audio:</strong> Warto dodać mikro-fade-in. ${software.includes('CapCut') || software.includes('Alight') ? 'W programie mobilnym wymaga to precyzyjnego przybliżenia osi czasu.' : 'W ' + software + ' dodaj domyślne przejście audio.'}</span>
               </li>
               <li class="flex items-start gap-2">
                 <span class="text-brand-crimson font-bold">&bull;</span>
-                <span><strong>Kontrast dynamiczny:</strong> Wyciszenie muzyki tła na 150 ms przed uderzeniem podbiłoby wrażenie potęgi uderzenia basu.</span>
+                <span><strong>Kontrast dynamiczny:</strong> Wyciszenie muzyki tła przed uderzeniem. ${software.includes('Premiere') || software.includes('After') ? 'Wykorzystaj keyframes do automatyzacji.' : 'Dodaj punkty głośności na ścieżce dźwiękowej.'}</span>
               </li>
             </ul>
           </div>
+        </div>
 
         </div>
 
@@ -943,7 +916,6 @@ ${state.user.logs.map((l, i) => `
   // ================= BOOTSTRAP APPLICATION =================
   function init() {
     initStorage();
-    startSessionTimer();
     initTabs();
     initFilters();
     initDailyQuest();
@@ -964,3 +936,4 @@ ${state.user.logs.map((l, i) => `
     init();
   }
 })();
+

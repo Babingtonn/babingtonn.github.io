@@ -67,24 +67,17 @@
             <p class="text-[10px] font-mono tracking-wider text-brand-crimson uppercase hidden sm:block">Mobile &rarr; Desktop Editing Discipline</p>
           </div>
         </a>
-
-        <!-- NLE Timecode & Session Status -->
-        <div class="hidden lg:flex items-center gap-3 pl-6 border-l border-brand-wine/30 font-mono text-xs">
-          <span class="w-2 h-2 bg-brand-pink animate-ping"></span>
-          <span class="text-brand-wine/70 text-[11px] uppercase tracking-wider">REC TIMECODE:</span>
-          <span id="sessionTimer" class="font-bold text-brand-wine tracking-widest text-sm">00:00:00:00</span>
-        </div>
       </div>
 
       <!-- User XP & System Actions -->
-      <div class="flex items-center gap-4">
+      <div class="flex items-center gap-2 sm:gap-4">
         <!-- XP & Level Badge -->
         <div class="flex items-center border border-brand-wine bg-white text-xs font-mono">
-          <div class="px-3 py-1.5 border-r border-brand-wine flex items-center gap-1.5 bg-brand-blush/20">
+          <div class="hidden sm:flex px-3 py-1.5 border-r border-brand-wine items-center gap-1.5 bg-brand-blush/20">
             <span class="text-[10px] text-brand-wine uppercase">LVL:</span>
             <span id="userLevelTitle" class="font-bold text-brand-wine">Apprentice (2)</span>
           </div>
-          <div class="px-3 py-1.5 bg-brand-wine text-brand-stone flex items-center gap-1 font-bold">
+          <div class="px-2 sm:px-3 py-1.5 bg-brand-wine text-brand-stone flex items-center gap-1 font-bold">
             <span id="userTotalXp">450</span>
             <span class="text-[10px] text-brand-blush">XP</span>
           </div>
@@ -105,25 +98,25 @@
 
     <!-- EDITORIAL NAVIGATION BAR (INDEX TABS) -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex overflow-x-auto border-t border-brand-wine/20 text-xs font-mono no-scrollbar bg-brand-stone">
-      <button class="nav-tab active flex items-center gap-2 py-3 px-5 border-r border-brand-wine/20 font-bold uppercase tracking-wider transition-all" data-tab="tab-quests">
+      <button class="nav-tab active whitespace-nowrap flex items-center gap-2 py-3 px-5 border-r border-brand-wine/20 font-bold uppercase tracking-wider transition-all" data-tab="tab-quests">
         <span class="text-brand-pink font-bold">01/</span>
         <span>Wyzwania Montażowe</span>
         <span class="ml-1 text-[10px] px-1 bg-brand-wine/10 text-brand-wine font-mono">20</span>
       </button>
 
-      <button class="nav-tab flex items-center gap-2 py-3 px-5 border-r border-brand-wine/20 font-bold uppercase tracking-wider transition-all" data-tab="tab-ai-reviewer">
+      <button class="nav-tab whitespace-nowrap flex items-center gap-2 py-3 px-5 border-r border-brand-wine/20 font-bold uppercase tracking-wider transition-all" data-tab="tab-ai-reviewer">
         <span class="text-brand-pink font-bold">02/</span>
         <span>AI Video Reviewer</span>
         <span class="text-[9px] px-1 bg-brand-crimson text-white">MULTIMODAL</span>
       </button>
 
-      <button class="nav-tab flex items-center gap-2 py-3 px-5 border-r border-brand-wine/20 font-bold uppercase tracking-wider transition-all" data-tab="tab-rosetta">
+      <button class="nav-tab whitespace-nowrap flex items-center gap-2 py-3 px-5 border-r border-brand-wine/20 font-bold uppercase tracking-wider transition-all" data-tab="tab-rosetta">
         <span class="text-brand-pink font-bold">03/</span>
         <span>Most Mobile &rarr; PC</span>
         <span class="text-[9px] px-1 bg-brand-wine text-brand-stone">ROSETTA</span>
       </button>
 
-      <button class="nav-tab flex items-center gap-2 py-3 px-5 border-r border-brand-wine/20 font-bold uppercase tracking-wider transition-all" data-tab="tab-logbook">
+      <button class="nav-tab whitespace-nowrap flex items-center gap-2 py-3 px-5 border-r border-brand-wine/20 font-bold uppercase tracking-wider transition-all" data-tab="tab-logbook">
         <span class="text-brand-pink font-bold">04/</span>
         <span>Dziennik Postępów</span>
         <span id="completedCountBadge" class="ml-1 text-[10px] px-1.5 py-0.2 bg-brand-wine text-white font-mono">0</span>
