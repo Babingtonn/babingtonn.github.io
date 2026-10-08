@@ -1,38 +1,36 @@
 <!DOCTYPE html>
-<html lang="pl" class="dark">
+<html lang="pl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EditForge | Osobisty Trenażer & Hub Rozwoju Edytora Wideo</title>
+  <title>EDITFORGE &mdash; Editorial Video Editing Dojo</title>
   
-  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <!-- Google Fonts: Syne (Brutalist/Editorial Headline), Plus Jakarta Sans, JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
-      darkMode: 'class',
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace'],
+            display: ['Syne', 'sans-serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
           },
           colors: {
-            nle: {
-              bg: '#0a0d14',
-              surface: '#111622',
-              card: '#161c2c',
-              border: '#232b40',
-              hover: '#1e263c',
-              premiere: '#3b82f6',
-              ae: '#a855f7',
-              alight: '#00e5ff',
-              capcut: '#ec4899',
-              accent: '#6366f1'
+            brand: {
+              wine: '#5D001E',       /* Deep Burgundy from palette */
+              crimson: '#9A1750',    /* Bold Wine Crimson */
+              pink: '#EE4C7C',       /* Electric Pink accent */
+              blush: '#E3AFBC',      /* Muted Dusty Rose */
+              stone: '#E3E2DF',      /* Warm Bone White / Newsprint */
+              ink: '#140107',        /* Deepest Charcoal Ink */
+              card: '#ECEBE8',       /* Slightly elevated stone */
+              cardDark: '#440016'    /* Deep card for contrast */
             }
           }
         }
@@ -46,231 +44,274 @@
   <!-- Supabase JS Client CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- Custom Styles -->
+  <!-- Custom Styles: Halftone textures & Editorial Rules -->
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="bg-nle-bg text-slate-100 min-h-screen flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
+<body class="bg-brand-stone text-brand-ink min-h-screen flex flex-col font-sans selection:bg-brand-pink selection:text-white">
 
-  <!-- TOP HEADER / NLE TIMELINE CONTROL BAR -->
-  <header class="border-b border-nle-border bg-nle-surface/90 backdrop-blur sticky top-0 z-40">
+  <!-- TOP EDITORIAL HEADER BAR -->
+  <header class="border-b-2 border-brand-wine bg-brand-stone sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       
-      <!-- Logo & Status -->
-      <div class="flex items-center gap-4">
-        <a href="#" class="flex items-center gap-2 group">
-          <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-indigo-500 via-purple-500 to-cyan-400 p-[2px] shadow-lg shadow-indigo-500/20">
-            <div class="w-full h-full bg-nle-surface rounded-[6px] flex items-center justify-center">
-              <span class="text-indigo-400 font-mono font-black text-sm tracking-tighter">◆</span>
-            </div>
+      <!-- Logo & Manifesto Tagline -->
+      <div class="flex items-center gap-6">
+        <a href="#" class="flex items-center gap-3 group">
+          <div class="w-8 h-8 bg-brand-wine flex items-center justify-center text-brand-stone font-display font-black text-lg transition-transform group-hover:bg-brand-pink">
+            E
           </div>
           <div>
-            <div class="flex items-center gap-1.5">
-              <span class="font-extrabold tracking-tight text-white group-hover:text-cyan-400 transition-colors">EDIT<span class="text-indigo-400">FORGE</span></span>
-              <span class="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-semibold border border-indigo-500/30">PRO DOJO</span>
+            <div class="flex items-center gap-2">
+              <span class="font-display font-black tracking-tight text-xl text-brand-wine uppercase">EDIT<span class="text-brand-crimson">FORGE</span></span>
+              <span class="text-[9px] font-mono tracking-widest px-1.5 py-0.5 bg-brand-wine text-brand-stone uppercase font-bold">NLE.01</span>
             </div>
-            <p class="text-[11px] text-slate-400 hidden sm:block">Mobile ➔ Desktop Video Mastery</p>
+            <p class="text-[10px] font-mono tracking-wider text-brand-crimson uppercase hidden sm:block">Mobile &rarr; Desktop Editing Discipline</p>
           </div>
         </a>
 
-        <!-- NLE Timecode Scrubber Display -->
-        <div class="hidden md:flex items-center gap-2 pl-4 border-l border-nle-border font-mono text-xs">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span class="text-slate-500">SESSION:</span>
-          <span id="sessionTimer" class="text-cyan-400 font-semibold tracking-wider">00:00:00:00</span>
+        <!-- NLE Timecode & Session Status -->
+        <div class="hidden lg:flex items-center gap-3 pl-6 border-l border-brand-wine/30 font-mono text-xs">
+          <span class="w-2 h-2 bg-brand-pink animate-ping"></span>
+          <span class="text-brand-wine/70 text-[11px] uppercase tracking-wider">REC TIMECODE:</span>
+          <span id="sessionTimer" class="font-bold text-brand-wine tracking-widest text-sm">00:00:00:00</span>
         </div>
       </div>
 
-      <!-- User XP & Level Display -->
-      <div class="flex items-center gap-3">
-        <div class="hidden lg:flex flex-col items-end">
-          <div class="flex items-center gap-2 text-xs">
-            <span class="text-slate-400">Poziom:</span>
-            <span id="userLevelTitle" class="font-bold text-amber-400">Apprentice Cutter (Lvl 2)</span>
+      <!-- User XP & System Actions -->
+      <div class="flex items-center gap-4">
+        <!-- XP & Level Badge -->
+        <div class="flex items-center border border-brand-wine bg-white text-xs font-mono">
+          <div class="px-3 py-1.5 border-r border-brand-wine flex items-center gap-1.5 bg-brand-blush/20">
+            <span class="text-[10px] text-brand-wine uppercase">LVL:</span>
+            <span id="userLevelTitle" class="font-bold text-brand-wine">Apprentice (2)</span>
           </div>
-          <div class="w-36 h-2 bg-slate-800 rounded-full overflow-hidden mt-1 border border-slate-700/60">
-            <div id="userXpBar" class="h-full bg-gradient-to-r from-indigo-500 to-cyan-400 rounded-full transition-all duration-500" style="width: 45%;"></div>
+          <div class="px-3 py-1.5 bg-brand-wine text-brand-stone flex items-center gap-1 font-bold">
+            <span id="userTotalXp">450</span>
+            <span class="text-[10px] text-brand-blush">XP</span>
           </div>
         </div>
 
-        <div class="flex items-center gap-2 bg-nle-card px-3 py-1.5 rounded-lg border border-nle-border">
-          <i data-lucide="zap" class="w-4 h-4 text-amber-400"></i>
-          <span id="userTotalXp" class="font-mono font-bold text-sm text-slate-100">450</span>
-          <span class="text-[10px] text-slate-400 font-mono">XP</span>
-        </div>
-
-        <!-- Settings / API Keys Modal Trigger -->
-        <button id="openSettingsBtn" class="p-2 rounded-lg bg-nle-card hover:bg-nle-hover text-slate-300 hover:text-white border border-nle-border transition-colors" title="Ustawienia bazy Supabase & Gemini AI">
-          <i data-lucide="settings" class="w-4 h-4"></i>
+        <!-- Settings Button -->
+        <button id="openSettingsBtn" class="w-9 h-9 border border-brand-wine hover:bg-brand-wine hover:text-brand-stone text-brand-wine flex items-center justify-center transition-colors" title="Konfiguracja Chmury Supabase & Gemini AI">
+          <i data-lucide="sliders" class="w-4 h-4"></i>
         </button>
 
-        <!-- Recruiter / Guest Mode Indicator -->
-        <div class="hidden sm:flex items-center gap-1.5 text-xs text-slate-400 bg-slate-800/60 px-2.5 py-1.5 rounded-lg border border-slate-700/50">
-          <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-400"></i>
-          <span>Recruiter Mode: <strong class="text-emerald-400">Public</strong></span>
+        <!-- Recruiter Mode Indicator -->
+        <div class="hidden sm:flex items-center gap-1.5 text-[11px] font-mono uppercase px-2.5 py-1 bg-brand-wine text-brand-stone">
+          <span class="w-1.5 h-1.5 bg-brand-pink"></span>
+          <span>Public Audit View</span>
         </div>
       </div>
     </div>
 
-    <!-- SUB-NAVIGATION BAR (TABS) -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex overflow-x-auto border-t border-nle-border/60 text-sm no-scrollbar">
-      <button class="nav-tab active flex items-center gap-2 py-3 px-4 border-b-2 font-medium transition-all" data-tab="tab-quests">
-        <i data-lucide="crosshair" class="w-4 h-4 text-indigo-400"></i>
-        <span>Wyzwania & Zadania</span>
-        <span class="text-xs px-1.5 py-0.2 rounded-full bg-indigo-500/20 text-indigo-300 font-mono">20</span>
+    <!-- EDITORIAL NAVIGATION BAR (INDEX TABS) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex overflow-x-auto border-t border-brand-wine/20 text-xs font-mono no-scrollbar bg-brand-stone">
+      <button class="nav-tab active flex items-center gap-2 py-3 px-5 border-r border-brand-wine/20 font-bold uppercase tracking-wider transition-all" data-tab="tab-quests">
+        <span class="text-brand-pink font-bold">01/</span>
+        <span>Wyzwania Montażowe</span>
+        <span class="ml-1 text-[10px] px-1 bg-brand-wine/10 text-brand-wine font-mono">20</span>
       </button>
 
-      <button class="nav-tab flex items-center gap-2 py-3 px-4 border-b-2 font-medium transition-all" data-tab="tab-ai-reviewer">
-        <i data-lucide="sparkles" class="w-4 h-4 text-purple-400"></i>
+      <button class="nav-tab flex items-center gap-2 py-3 px-5 border-r border-brand-wine/20 font-bold uppercase tracking-wider transition-all" data-tab="tab-ai-reviewer">
+        <span class="text-brand-pink font-bold">02/</span>
         <span>AI Video Reviewer</span>
-        <span class="text-[10px] px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 font-mono uppercase font-bold">Multimodal</span>
+        <span class="text-[9px] px-1 bg-brand-crimson text-white">MULTIMODAL</span>
       </button>
 
-      <button class="nav-tab flex items-center gap-2 py-3 px-4 border-b-2 font-medium transition-all" data-tab="tab-rosetta">
-        <i data-lucide="layers" class="w-4 h-4 text-cyan-400"></i>
-        <span>Most Mobile ➔ PC</span>
-        <span class="text-[10px] px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono font-bold">Rosetta</span>
+      <button class="nav-tab flex items-center gap-2 py-3 px-5 border-r border-brand-wine/20 font-bold uppercase tracking-wider transition-all" data-tab="tab-rosetta">
+        <span class="text-brand-pink font-bold">03/</span>
+        <span>Most Mobile &rarr; PC</span>
+        <span class="text-[9px] px-1 bg-brand-wine text-brand-stone">ROSETTA</span>
       </button>
 
-      <button class="nav-tab flex items-center gap-2 py-3 px-4 border-b-2 font-medium transition-all" data-tab="tab-logbook">
-        <i data-lucide="book-open" class="w-4 h-4 text-emerald-400"></i>
+      <button class="nav-tab flex items-center gap-2 py-3 px-5 border-r border-brand-wine/20 font-bold uppercase tracking-wider transition-all" data-tab="tab-logbook">
+        <span class="text-brand-pink font-bold">04/</span>
         <span>Dziennik Postępów</span>
-        <span id="completedCountBadge" class="text-xs px-1.5 py-0.2 rounded-full bg-emerald-500/20 text-emerald-300 font-mono">0</span>
+        <span id="completedCountBadge" class="ml-1 text-[10px] px-1.5 py-0.2 bg-brand-wine text-white font-mono">0</span>
       </button>
     </div>
   </header>
 
-  <!-- MAIN VIEWPORT CONTAINER -->
-  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <!-- MAIN EDITORIAL CONTENT -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
     
-    <!-- ================= TAB 1: QUESTS HUB ================= -->
-    <section id="tab-quests" class="tab-content active space-y-8">
+    <!-- ================= TAB 1: EDITORIAL QUESTS HUB ================= -->
+    <section id="tab-quests" class="tab-content active space-y-12">
       
-      <!-- HERO BANNER: ZADANIE DNIA (DAILY QUEST) -->
-      <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-nle-card via-slate-900 to-indigo-950/40 border border-indigo-500/30 p-6 sm:p-8 shadow-2xl">
-        <div class="absolute -right-10 -bottom-10 w-60 h-60 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="absolute right-8 top-8 opacity-10 pointer-events-none">
-          <i data-lucide="film" class="w-44 h-44 text-white"></i>
-        </div>
+      <!-- HERO SECTION: EDITORIAL SPLIT POSTER (ZADANIE DNIA) -->
+      <div class="border-2 border-brand-wine bg-white shadow-[8px_8px_0px_#5D001E] grid grid-cols-1 lg:grid-cols-12 overflow-hidden">
+        
+        <!-- Left Column: Typography & Intent (Halftone Pattern Background) -->
+        <div class="lg:col-span-7 p-6 sm:p-10 flex flex-col justify-between border-b lg:border-b-0 lg:border-r-2 border-brand-wine relative halftone-bg">
+          <div class="space-y-6 relative z-10">
+            <div class="flex flex-wrap items-center gap-2 text-xs font-mono">
+              <span class="px-2 py-0.5 bg-brand-wine text-brand-stone font-bold uppercase tracking-wider">
+                [ ZADANIE DNIA ]
+              </span>
+              <span id="dailyCategoryBadge" class="px-2 py-0.5 border border-brand-wine text-brand-wine font-semibold uppercase">
+                SND-01 &bull; Sound Design
+              </span>
+              <span class="text-brand-crimson font-mono flex items-center gap-1 font-bold">
+                &bull; 20 MINUT
+              </span>
+            </div>
 
-        <div class="relative z-10 max-w-3xl space-y-4">
-          <div class="flex flex-wrap items-center gap-2.5">
-            <span class="px-2.5 py-1 rounded-md text-xs font-mono font-bold uppercase tracking-wider bg-indigo-500 text-white flex items-center gap-1.5">
-              <i data-lucide="flame" class="w-3.5 h-3.5"></i>
-              Zadanie Dnia (Daily Quest)
-            </span>
-            <span id="dailyCategoryBadge" class="px-2.5 py-0.5 rounded text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700">Sound Design & Rytm</span>
-            <span class="text-xs text-slate-400 font-mono flex items-center gap-1">
-              <i data-lucide="clock" class="w-3.5 h-3.5"></i> 20 minut
-            </span>
+            <div>
+              <p class="text-xs font-mono uppercase tracking-widest text-brand-crimson font-bold mb-1">PROGRAM TRENINGOWY &mdash; WYBÓR SYSTEMU</p>
+              <h2 id="dailyTitle" class="text-3xl sm:text-5xl font-display font-black text-brand-wine tracking-tight uppercase leading-[0.95]">
+                The 4-Layer Impact Rule
+              </h2>
+              <p id="dailySubtitle" class="text-sm font-sans font-medium text-brand-crimson mt-2">
+                Architektura uderzenia i składowe częstotliwości w warstwowym udźwiękowieniu.
+              </p>
+            </div>
+
+            <p id="dailyObjective" class="text-sm text-brand-ink/90 font-sans leading-relaxed border-l-2 border-brand-pink pl-4 py-1">
+              Stworzenie jednego potężnego momentu uderzenia w wideo przy użyciu minimum 4 odrębnych, zbalansowanych warstw audio (Sub-Bass, Transient, Riser, Reverb Tail).
+            </p>
           </div>
 
-          <div>
-            <h2 id="dailyTitle" class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">The 4-Layer Impact Rule</h2>
-            <p id="dailySubtitle" class="text-indigo-200/80 text-sm mt-1">Architektura uderzenia i składowe częstotliwości w warstwowym udźwiękowieniu.</p>
-          </div>
-
-          <p id="dailyObjective" class="text-slate-300 text-sm leading-relaxed">
-            Stworzenie jednego potężnego momentu uderzenia/przejścia w wideo przy użyciu minimum 4 odrębnych, precyzyjnie zbalansowanych warstw audio (Sub-Bass, Transient, Riser, Reverb Tail).
-          </p>
-
-          <div class="pt-2 flex flex-wrap gap-3">
-            <button id="openDailyQuestBtn" class="px-5 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm shadow-lg shadow-indigo-600/30 flex items-center gap-2 transition-all">
-              <i data-lucide="play" class="w-4 h-4 fill-white"></i>
-              <span>Rozpocznij to Zadanie</span>
+          <div class="pt-8 flex flex-wrap gap-3 relative z-10">
+            <button id="openDailyQuestBtn" class="px-6 py-3 bg-brand-wine hover:bg-brand-crimson text-brand-stone font-display font-bold text-sm uppercase tracking-wider flex items-center gap-2 transition-all shadow-[4px_4px_0px_#EE4C7C]">
+              <span>Rozpocznij Wyzwanie &rarr;</span>
             </button>
-            <button id="rollRandomQuestBtn" class="px-4 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium text-sm border border-slate-700 flex items-center gap-2 transition-all">
-              <i data-lucide="shuffle" class="w-4 h-4"></i>
+            <button id="rollRandomQuestBtn" class="px-5 py-3 border border-brand-wine hover:bg-brand-blush/30 text-brand-wine font-mono text-xs uppercase tracking-wider flex items-center gap-2 transition-colors">
+              <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
               <span>Wylosuj Inne</span>
             </button>
           </div>
         </div>
-      </div>
 
-      <!-- FILTER CONTROLS & SEARCH BAR -->
-      <div class="space-y-4">
-        <div class="flex flex-col sm:flex-row gap-4 items-center justify-between">
-          <div class="w-full sm:w-80 relative">
-            <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
-            <input type="text" id="questSearchInput" placeholder="Szukaj zadań (np. graph, beat, maska)..." 
-              class="w-full pl-9 pr-4 py-2 text-sm bg-nle-card border border-nle-border rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-colors">
+        <!-- Right Column: Dramatic Color Block with Big Graphic Counter -->
+        <div class="lg:col-span-5 bg-brand-wine text-brand-stone p-8 sm:p-10 flex flex-col justify-between relative overflow-hidden">
+          <div class="absolute -right-8 -bottom-10 text-[180px] font-display font-black text-brand-crimson/30 select-none pointer-events-none leading-none">
+            01
           </div>
 
-          <!-- Difficulty & Tool Filters -->
-          <div class="flex flex-wrap gap-2 w-full sm:w-auto items-center">
-            <select id="toolFilterSelect" class="bg-nle-card text-xs text-slate-300 border border-nle-border rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-500">
-              <option value="all">Wszystkie Narzędzia (Mobile & PC)</option>
+          <div class="space-y-4 relative z-10">
+            <span class="text-[11px] font-mono tracking-widest uppercase text-brand-blush border-b border-brand-blush/30 pb-1 block">
+              ZASADA DELIBERATE PRACTICE
+            </span>
+            <blockquote class="text-lg sm:text-xl font-display font-bold leading-snug text-brand-stone">
+              &bdquo;Montażysta nie uczy się montując 100 godzin losowo. Uczy się izolując pojedynczy element i doprowadzając go do perfekcji.&rdquo;
+            </blockquote>
+          </div>
+
+          <div class="pt-8 border-t border-brand-blush/20 flex items-center justify-between text-xs font-mono text-brand-blush relative z-10">
+            <span>MOBILE &bull; DESKTOP</span>
+            <span class="font-bold text-brand-pink">+150 XP NAGRODY</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- FILTERING & CATALOG CONTROLS (EDITORIAL TOOLBAR) -->
+      <div class="space-y-6 pt-4">
+        
+        <div class="border-b-2 border-brand-wine pb-3 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+          <div class="flex items-center gap-3">
+            <h3 class="font-display font-black text-2xl uppercase tracking-tight text-brand-wine">Katalog Zadań</h3>
+            <span class="text-xs font-mono px-2 py-0.5 bg-brand-wine text-brand-stone font-bold">[20 WYKŁADÓW]</span>
+          </div>
+
+          <!-- Search Input with Sharp Border -->
+          <div class="w-full sm:w-72 relative">
+            <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-brand-wine"></i>
+            <input type="text" id="questSearchInput" placeholder="Szukaj pojęć (graph, cut, sfx)..." 
+              class="w-full pl-9 pr-3 py-2 text-xs font-mono bg-white border border-brand-wine text-brand-ink placeholder-brand-wine/50 focus:outline-none focus:ring-2 focus:ring-brand-pink transition-all">
+          </div>
+        </div>
+
+        <!-- Pillar Filter Buttons (Sharp Editorial Blocks) -->
+        <div class="flex flex-wrap gap-2 text-xs font-mono">
+          <button class="pillar-filter-btn active px-4 py-2 border border-brand-wine font-bold uppercase transition-all" data-pillar="all">
+            Wszystkie (20)
+          </button>
+          <button class="pillar-filter-btn px-4 py-2 border border-brand-wine font-bold uppercase transition-all" data-pillar="sound">
+            01. Sound &amp; Rytm
+          </button>
+          <button class="pillar-filter-btn px-4 py-2 border border-brand-wine font-bold uppercase transition-all" data-pillar="motion">
+            02. Motion &amp; Graph
+          </button>
+          <button class="pillar-filter-btn px-4 py-2 border border-brand-wine font-bold uppercase transition-all" data-pillar="pacing">
+            03. Pacing &amp; Narracja
+          </button>
+          <button class="pillar-filter-btn px-4 py-2 border border-brand-wine font-bold uppercase transition-all" data-pillar="compositing">
+            04. Compositing &amp; Styl
+          </button>
+          <button class="pillar-filter-btn px-4 py-2 border border-brand-wine font-bold uppercase transition-all" data-pillar="desktop">
+            05. Desktop Bridge
+          </button>
+        </div>
+
+        <!-- Secondary Dropdowns (Tool & Difficulty) -->
+        <div class="flex flex-wrap gap-3 items-center text-xs font-mono">
+          <div class="flex items-center gap-1.5 text-brand-wine font-bold">
+            <span class="text-[10px] text-brand-crimson">NARZĘDZIE:</span>
+            <select id="toolFilterSelect" class="bg-white border border-brand-wine px-2.5 py-1.5 text-xs text-brand-wine font-mono focus:outline-none focus:ring-1 focus:ring-brand-pink">
+              <option value="all">Wszystkie (CapCut / AM / Premiere / AE)</option>
               <option value="CapCut">CapCut</option>
               <option value="Alight Motion">Alight Motion</option>
-              <option value="Premiere Pro">Premiere Pro</option>
-              <option value="After Effects">After Effects</option>
+              <option value="Premiere Pro">Adobe Premiere Pro</option>
+              <option value="After Effects">Adobe After Effects</option>
             </select>
+          </div>
 
-            <select id="difficultyFilterSelect" class="bg-nle-card text-xs text-slate-300 border border-nle-border rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-500">
-              <option value="all">Wszystkie Poziomy</option>
+          <div class="flex items-center gap-1.5 text-brand-wine font-bold">
+            <span class="text-[10px] text-brand-crimson">POZIOM:</span>
+            <select id="difficultyFilterSelect" class="bg-white border border-brand-wine px-2.5 py-1.5 text-xs text-brand-wine font-mono focus:outline-none focus:ring-1 focus:ring-brand-pink">
+              <option value="all">Wszystkie stopnie trudności</option>
               <option value="Beginner">Podstawowy</option>
-              <option value="Intermediate">Średni</option>
+              <option value="Intermediate">Średniozaawansowany</option>
               <option value="Advanced">Zaawansowany</option>
               <option value="Master">Master</option>
             </select>
           </div>
         </div>
-
-        <!-- Pillar Buttons Filter -->
-        <div class="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar text-xs">
-          <button class="pillar-filter-btn active px-3.5 py-1.5 rounded-lg border font-medium transition-all" data-pillar="all">
-            Wszystkie Filary (20)
-          </button>
-          <button class="pillar-filter-btn px-3.5 py-1.5 rounded-lg border font-medium transition-all" data-pillar="sound">
-            🎧 1. Sound & Rytm
-          </button>
-          <button class="pillar-filter-btn px-3.5 py-1.5 rounded-lg border font-medium transition-all" data-pillar="motion">
-            📈 2. Motion & Graph
-          </button>
-          <button class="pillar-filter-btn px-3.5 py-1.5 rounded-lg border font-medium transition-all" data-pillar="pacing">
-            ✂️ 3. Pacing & Narracja
-          </button>
-          <button class="pillar-filter-btn px-3.5 py-1.5 rounded-lg border font-medium transition-all" data-pillar="compositing">
-            🎨 4. Compositing & Styl
-          </button>
-          <button class="pillar-filter-btn px-3.5 py-1.5 rounded-lg border font-medium transition-all" data-pillar="desktop">
-            🖥️ 5. Desktop Bridge
-          </button>
-        </div>
       </div>
 
-      <!-- QUESTS GRID -->
-      <div id="questsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <!-- QUESTS GRID (BRUTALIST EDITORIAL TILES) -->
+      <div id="questsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Rendered dynamically by app.js -->
       </div>
 
     </section>
 
     <!-- ================= TAB 2: AI VIDEO REVIEWER ================= -->
-    <section id="tab-ai-reviewer" class="tab-content hidden space-y-8">
+    <section id="tab-ai-reviewer" class="tab-content hidden space-y-10">
       
-      <div class="border border-nle-border rounded-2xl bg-nle-surface p-6 sm:p-8 space-y-6">
-        <div class="max-w-3xl space-y-2">
-          <div class="flex items-center gap-2 text-purple-400 font-mono text-xs font-bold uppercase">
-            <i data-lucide="sparkles" class="w-4 h-4"></i>
-            <span>Multimodal Editorial Quality Auditor</span>
+      <div class="border-2 border-brand-wine bg-white p-6 sm:p-10 shadow-[8px_8px_0px_#5D001E] space-y-8">
+        
+        <div class="border-b-2 border-brand-wine pb-6 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+          <div class="space-y-2">
+            <span class="px-2.5 py-1 bg-brand-crimson text-white text-[10px] font-mono font-bold uppercase tracking-widest">
+              MULTIMODAL EDITORIAL AUDIT
+            </span>
+            <h2 class="text-3xl sm:text-4xl font-display font-black uppercase text-brand-wine tracking-tight">
+              AI Video Reviewer (Lead Editor)
+            </h2>
+            <p class="text-sm font-sans text-brand-ink/80 max-w-2xl leading-relaxed">
+              Upuść swój wyeksportowany klip montażowy (.mp4 / .mov). Model AI analizuje film pod kątem dynamiki, timingów audio, krzywych prędkości i dopasowania do stref platform mobilnych (9:16).
+            </p>
           </div>
-          <h2 class="text-2xl sm:text-3xl font-extrabold text-white">AI Video Reviewer (Lead Editor)</h2>
-          <p class="text-slate-400 text-sm leading-relaxed">
-            Upuść tutaj swój wyeksportowany klip wideo (`.mp4` / `.mov`). Model AI (Gemini Flash Multimodal) przeanalizuje klatka po klatce dynamikę cięć, synchronizację dźwięku, krzywe ruchu oraz zgodność ze strefami bezpiecznymi platform mobilnych.
-          </p>
+
+          <div class="font-mono text-xs text-brand-crimson border-l-2 border-brand-pink pl-3">
+            <p class="font-bold uppercase">STANDARD OCENY:</p>
+            <p class="text-[11px] text-brand-wine">Pacing &bull; Sync &bull; Graph &bull; Safe Zones</p>
+          </div>
         </div>
 
-        <!-- Associated Quest Selection -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl bg-nle-card p-4 rounded-xl border border-nle-border">
+        <!-- Quest & Tool Selection Inputs -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-brand-stone p-5 border border-brand-wine text-xs font-mono">
           <div>
-            <label class="block text-xs font-semibold text-slate-300 mb-1">Jakie zadanie realizowałeś?</label>
-            <select id="aiReviewQuestSelect" class="w-full bg-nle-surface text-xs text-slate-200 border border-nle-border rounded-lg px-3 py-2 focus:outline-none focus:border-purple-500">
-              <!-- Filled dynamically with quests -->
+            <label class="block font-bold text-brand-wine mb-1 uppercase tracking-wider">Które zadanie realizowałeś?</label>
+            <select id="aiReviewQuestSelect" class="w-full bg-white border border-brand-wine p-2.5 text-xs text-brand-wine focus:outline-none focus:ring-2 focus:ring-brand-pink">
+              <!-- Populated dynamically -->
             </select>
           </div>
+
           <div>
-            <label class="block text-xs font-semibold text-slate-300 mb-1">W jakim programie montowałeś?</label>
-            <select id="aiReviewSoftwareSelect" class="w-full bg-nle-surface text-xs text-slate-200 border border-nle-border rounded-lg px-3 py-2 focus:outline-none focus:border-purple-500">
+            <label class="block font-bold text-brand-wine mb-1 uppercase tracking-wider">Użyte narzędzie montażowe:</label>
+            <select id="aiReviewSoftwareSelect" class="w-full bg-white border border-brand-wine p-2.5 text-xs text-brand-wine focus:outline-none focus:ring-2 focus:ring-brand-pink">
               <option value="CapCut">CapCut (Mobile)</option>
               <option value="Alight Motion">Alight Motion (Mobile)</option>
               <option value="Adobe Premiere Pro">Adobe Premiere Pro (Desktop)</option>
@@ -279,117 +320,129 @@
           </div>
         </div>
 
-        <!-- DRAG AND DROP ZONE -->
-        <div id="videoDropZone" class="border-2 border-dashed border-slate-700 hover:border-purple-500/80 rounded-2xl p-8 sm:p-12 text-center transition-all bg-nle-card/50 hover:bg-purple-950/10 cursor-pointer group">
+        <!-- DRAG AND DROP ZONE (SHARP ARCHITECTURAL BOX) -->
+        <div id="videoDropZone" class="border-2 border-dashed border-brand-wine hover:border-brand-pink bg-brand-stone/50 hover:bg-brand-blush/10 p-10 sm:p-14 text-center cursor-pointer transition-colors group">
           <input type="file" id="videoFileInput" accept="video/mp4,video/quicktime,video/webm" class="hidden">
           
           <div class="flex flex-col items-center justify-center space-y-4">
-            <div class="w-16 h-16 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 group-hover:scale-110 transition-transform">
-              <i data-lucide="upload-cloud" class="w-8 h-8"></i>
+            <div class="w-16 h-16 bg-brand-wine text-brand-stone flex items-center justify-center group-hover:scale-105 group-hover:bg-brand-pink transition-all">
+              <i data-lucide="upload" class="w-7 h-7"></i>
             </div>
             
             <div class="space-y-1">
-              <p class="text-base font-semibold text-white">Przeciągnij i upuść plik z filmem lub <span class="text-purple-400 underline decoration-purple-400/50">kliknij, aby wybrać</span></p>
-              <p class="text-xs text-slate-400 font-mono">Formaty: MP4, MOV, WebM (zalecane do 40MB i do 30 sekund na trening)</p>
+              <p class="font-display font-bold text-lg text-brand-wine uppercase">
+                Przeciągnij plik wideo lub <span class="text-brand-pink underline">wybierz z dysku</span>
+              </p>
+              <p class="text-xs font-mono text-brand-crimson">
+                Zalecane: MP4 / MOV do 40MB &bull; do 30 sekund trwania klipu
+              </p>
             </div>
 
-            <!-- Selected File Badge -->
-            <div id="selectedFileInfo" class="hidden items-center gap-2 px-3 py-1.5 rounded-lg bg-purple-500/20 text-purple-200 text-xs font-mono border border-purple-500/40">
+            <div id="selectedFileInfo" class="hidden items-center gap-2 px-3 py-1 bg-brand-wine text-brand-stone text-xs font-mono">
               <i data-lucide="video" class="w-4 h-4"></i>
-              <span id="selectedFileName">klip.mp4</span>
-              <span id="selectedFileSize" class="text-purple-400">(14.2 MB)</span>
+              <span id="selectedFileName">plik.mp4</span>
+              <span id="selectedFileSize" class="text-brand-blush">(0 MB)</span>
             </div>
           </div>
         </div>
 
-        <!-- ACTION BUTTONS -->
-        <div class="flex flex-wrap items-center justify-between gap-4 pt-2">
-          <div class="flex items-center gap-2 text-xs text-slate-400">
-            <i data-lucide="info" class="w-4 h-4 text-slate-500"></i>
-            <span>Darmowy klucz Gemini API możesz wpisać w ustawieniach (ikona zębatki ⚙️ w nagłówku). Bez klucza działa symulowany audytor demonstracyjny.</span>
+        <!-- AUDIT CONTROLS -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-2">
+          <div class="text-xs font-mono text-brand-wine/80 flex items-center gap-2">
+            <i data-lucide="shield" class="w-4 h-4 text-brand-crimson"></i>
+            <span>Darmowy klucz Gemini API możesz podać w Ustawieniach (⚙️). Bez klucza działa wbudowany symulator audytu.</span>
           </div>
 
-          <button id="runAiAuditBtn" class="px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-sm shadow-lg shadow-purple-600/30 flex items-center gap-2 transition-all">
-            <i data-lucide="play" class="w-4 h-4 fill-white"></i>
-            <span>Rozpocznij Audyt Montażowy AI</span>
+          <button id="runAiAuditBtn" class="px-8 py-3.5 bg-brand-wine hover:bg-brand-crimson text-brand-stone font-display font-black text-sm uppercase tracking-wider shadow-[4px_4px_0px_#EE4C7C] flex items-center gap-2 transition-all">
+            <span>Uruchom Audyt AI &rarr;</span>
           </button>
         </div>
 
-        <!-- AUDIT REPORT CARD CONTAINER -->
-        <div id="aiAuditResultContainer" class="hidden space-y-6 pt-6 border-t border-nle-border">
-          <!-- Rendered by app.js -->
+        <!-- AUDIT REPORT RESULT CONTAINER -->
+        <div id="aiAuditResultContainer" class="hidden space-y-6 pt-6 border-t-2 border-brand-wine">
+          <!-- Rendered dynamically -->
         </div>
 
       </div>
 
     </section>
 
-    <!-- ================= TAB 3: ROSETTA STONE (MOBILE ➔ PC) ================= -->
-    <section id="tab-rosetta" class="tab-content hidden space-y-8">
+    <!-- ================= TAB 3: THE ROSETTA STONE ================= -->
+    <section id="tab-rosetta" class="tab-content hidden space-y-10">
       
-      <div class="border border-nle-border rounded-2xl bg-nle-surface p-6 sm:p-8 space-y-6">
-        <div class="max-w-3xl space-y-2">
-          <div class="flex items-center gap-2 text-cyan-400 font-mono text-xs font-bold uppercase">
-            <i data-lucide="refresh-cw" class="w-4 h-4"></i>
-            <span>The Rosetta Stone Translation Matrix</span>
-          </div>
-          <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Most Mobile ➔ Desktop (Słownik Pojęć)</h2>
-          <p class="text-slate-400 text-sm leading-relaxed">
-            Nie jesteś uwiązany do jednej aplikacji. Tutaj zobaczysz dokładnie, jak funkcje, które znasz z <strong class="text-cyan-400">Alight Motion</strong> i <strong class="text-pink-400">CapCut</strong>, przekładają się na profesjonalny workflow w <strong class="text-purple-400">After Effects</strong> i <strong class="text-blue-400">Premiere Pro</strong>.
+      <div class="border-2 border-brand-wine bg-white p-6 sm:p-10 shadow-[8px_8px_0px_#5D001E] space-y-8">
+        
+        <div class="border-b-2 border-brand-wine pb-6 space-y-2">
+          <span class="px-2.5 py-1 bg-brand-wine text-brand-stone text-[10px] font-mono font-bold uppercase tracking-widest">
+            KWESTIA POJĘĆ I WORKFLOW
+          </span>
+          <h2 class="text-3xl sm:text-4xl font-display font-black uppercase text-brand-wine tracking-tight">
+            The Rosetta Stone: Most Mobile &rarr; PC
+          </h2>
+          <p class="text-sm font-sans text-brand-ink/80 max-w-2xl leading-relaxed">
+            Nie jesteś uwiązany do jednej aplikacji. Poniższa matryca tłumaczy funkcje z <strong class="text-brand-crimson">Alight Motion</strong> i <strong class="text-brand-wine">CapCut</strong> na profesjonalne środowisko <strong class="text-brand-wine">After Effects</strong> i <strong class="text-brand-crimson">Premiere Pro</strong>.
           </p>
         </div>
 
-        <!-- ROSETTA STONE CARDS -->
-        <div id="rosettaGrid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <!-- Rendered dynamically by app.js -->
+        <!-- ROSETTA TILES -->
+        <div id="rosettaGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Rendered dynamically -->
         </div>
+
       </div>
 
     </section>
 
-    <!-- ================= TAB 4: LOGBOOK (HISTORIA I XP) ================= -->
-    <section id="tab-logbook" class="tab-content hidden space-y-8">
+    <!-- ================= TAB 4: AUDITABLE LOGBOOK ================= -->
+    <section id="tab-logbook" class="tab-content hidden space-y-10">
       
-      <div class="border border-nle-border rounded-2xl bg-nle-surface p-6 sm:p-8 space-y-6">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <div class="space-y-1">
-            <div class="flex items-center gap-2 text-emerald-400 font-mono text-xs font-bold uppercase">
-              <i data-lucide="check-circle-2" class="w-4 h-4"></i>
-              <span>Auditable Training Record</span>
-            </div>
-            <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Dziennik Treningowy Montażysty</h2>
-            <p class="text-slate-400 text-sm">Twoja historia wykonanych zadań z dowodami, autorefleksją i audytami AI.</p>
+      <div class="border-2 border-brand-wine bg-white p-6 sm:p-10 shadow-[8px_8px_0px_#5D001E] space-y-8">
+        
+        <div class="border-b-2 border-brand-wine pb-6 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
+          <div class="space-y-2">
+            <span class="px-2.5 py-1 bg-brand-wine text-brand-stone text-[10px] font-mono font-bold uppercase tracking-widest">
+              WERYFIKOWALNY DOWÓD PROGRESU
+            </span>
+            <h2 class="text-3xl sm:text-4xl font-display font-black uppercase text-brand-wine tracking-tight">
+              Dziennik Treningowy Montażysty
+            </h2>
+            <p class="text-sm font-sans text-brand-ink/80">
+              Historia wykonanych ćwiczeń, zapisany czas, linki do wyrenderowanych plików i oceny audytów AI.
+            </p>
           </div>
 
-          <button id="exportLogbookBtn" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-mono border border-slate-700 flex items-center gap-2 transition-colors">
+          <button id="exportLogbookBtn" class="px-4 py-2.5 bg-brand-stone hover:bg-brand-blush/30 border border-brand-wine text-brand-wine font-mono text-xs font-bold uppercase flex items-center gap-2 transition-colors">
             <i data-lucide="download" class="w-4 h-4"></i>
-            <span>Eksportuj Raport dla Rekrutera</span>
+            <span>Pobierz Raport (.MD)</span>
           </button>
         </div>
 
-        <!-- STATS OVERVIEW CARDS -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          <div class="bg-nle-card p-4 rounded-xl border border-nle-border space-y-1">
-            <span class="text-slate-400 text-xs font-mono">Ukończone Zadania</span>
-            <p id="statCompletedCount" class="text-2xl font-black text-emerald-400">0 / 20</p>
+        <!-- STAT METRICS BANNER (EDITORIAL COUNTERS) -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="p-5 border border-brand-wine bg-brand-stone space-y-1">
+            <span class="text-[10px] font-mono uppercase tracking-wider text-brand-crimson font-bold block">Ukończone Zadania</span>
+            <p id="statCompletedCount" class="text-3xl font-display font-black text-brand-wine">0 / 20</p>
           </div>
-          <div class="bg-nle-card p-4 rounded-xl border border-nle-border space-y-1">
-            <span class="text-slate-400 text-xs font-mono">Zdobyte XP</span>
-            <p id="statTotalXp" class="text-2xl font-black text-amber-400">450</p>
+
+          <div class="p-5 border border-brand-wine bg-brand-stone space-y-1">
+            <span class="text-[10px] font-mono uppercase tracking-wider text-brand-crimson font-bold block">Zdobyte Doświadczenie</span>
+            <p id="statTotalXp" class="text-3xl font-display font-black text-brand-crimson">450 XP</p>
           </div>
-          <div class="bg-nle-card p-4 rounded-xl border border-nle-border space-y-1">
-            <span class="text-slate-400 text-xs font-mono">Czas Treningu</span>
-            <p id="statTotalHours" class="text-2xl font-black text-cyan-400">1.5h</p>
+
+          <div class="p-5 border border-brand-wine bg-brand-stone space-y-1">
+            <span class="text-[10px] font-mono uppercase tracking-wider text-brand-crimson font-bold block">Czas Na Osi Czasu</span>
+            <p id="statTotalHours" class="text-3xl font-display font-black text-brand-wine">1.5h</p>
           </div>
-          <div class="bg-nle-card p-4 rounded-xl border border-nle-border space-y-1">
-            <span class="text-slate-400 text-xs font-mono">Średnia Ocena AI</span>
-            <p id="statAvgScore" class="text-2xl font-black text-purple-400">86%</p>
+
+          <div class="p-5 border border-brand-wine bg-brand-stone space-y-1">
+            <span class="text-[10px] font-mono uppercase tracking-wider text-brand-crimson font-bold block">Średnia Audytu AI</span>
+            <p id="statAvgScore" class="text-3xl font-display font-black text-brand-pink">86%</p>
           </div>
         </div>
 
         <!-- COMPLETED LOGS LIST -->
-        <div id="logbookList" class="space-y-4">
-          <!-- Rendered dynamically by app.js -->
+        <div id="logbookList" class="space-y-4 pt-4">
+          <!-- Rendered dynamically -->
         </div>
 
       </div>
@@ -398,92 +451,84 @@
 
   </main>
 
-  <!-- ================= QUEST DETAIL MODAL ================= -->
-  <div id="questModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 overflow-y-auto">
-    <div class="bg-nle-surface border border-nle-border w-full max-w-3xl rounded-2xl shadow-2xl overflow-hidden my-8 animate-in fade-in zoom-in-95 duration-200">
+  <!-- ================= EDITORIAL QUEST DETAIL MODAL ================= -->
+  <div id="questModal" class="fixed inset-0 z-50 bg-brand-ink/80 backdrop-blur-sm hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white border-2 border-brand-wine w-full max-w-3xl shadow-[12px_12px_0px_#5D001E] overflow-hidden my-8 animate-in fade-in zoom-in-95 duration-150">
       
       <!-- Modal Header -->
-      <div class="p-6 border-b border-nle-border flex items-start justify-between bg-nle-card/50">
-        <div class="space-y-1.5">
-          <div class="flex items-center gap-2">
-            <span id="modalPillarBadge" class="px-2.5 py-0.5 rounded text-xs font-mono font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/40">Sound Design</span>
-            <span id="modalDifficultyBadge" class="px-2 py-0.5 rounded text-[11px] font-mono text-amber-300 bg-amber-500/10 border border-amber-500/20">Intermediate</span>
-            <span id="modalTimeBadge" class="text-xs text-slate-400 font-mono">20 min</span>
-            <span id="modalXpBadge" class="text-xs text-amber-400 font-mono font-bold">+150 XP</span>
+      <div class="p-6 border-b-2 border-brand-wine flex items-start justify-between bg-brand-stone">
+        <div class="space-y-2">
+          <div class="flex flex-wrap items-center gap-2 text-xs font-mono">
+            <span id="modalPillarBadge" class="px-2 py-0.5 bg-brand-wine text-brand-stone font-bold uppercase">Sound Design</span>
+            <span id="modalDifficultyBadge" class="px-2 py-0.5 border border-brand-wine text-brand-wine font-semibold uppercase">Intermediate</span>
+            <span id="modalTimeBadge" class="text-brand-crimson font-mono">20 min</span>
+            <span id="modalXpBadge" class="text-brand-pink font-bold font-mono">+150 XP</span>
           </div>
-          <h3 id="modalTitle" class="text-2xl font-extrabold text-white">The 4-Layer Impact Rule</h3>
-          <p id="modalSubtitle" class="text-slate-400 text-xs">Architektura uderzenia i składowe częstotliwości</p>
+          <h3 id="modalTitle" class="text-2xl sm:text-3xl font-display font-black text-brand-wine uppercase leading-tight">The 4-Layer Impact Rule</h3>
+          <p id="modalSubtitle" class="text-xs font-sans text-brand-crimson font-medium">Architektura uderzenia i składowe częstotliwości</p>
         </div>
 
-        <button id="closeModalBtn" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors">
-          <i data-lucide="x" class="w-5 h-5"></i>
+        <button id="closeModalBtn" class="w-8 h-8 border border-brand-wine hover:bg-brand-wine hover:text-white flex items-center justify-center text-brand-wine transition-colors">
+          <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
 
       <!-- Modal Body -->
-      <div class="p-6 space-y-6 max-h-[70vh] overflow-y-auto text-sm">
+      <div class="p-6 sm:p-8 space-y-6 max-h-[70vh] overflow-y-auto text-sm">
         
         <!-- Objective -->
-        <div class="space-y-2">
-          <h4 class="font-bold text-white flex items-center gap-2 text-xs uppercase tracking-wider font-mono text-indigo-400">
-            <i data-lucide="target" class="w-4 h-4"></i> Cel Operacyjny
-          </h4>
-          <p id="modalObjective" class="text-slate-300 bg-nle-card p-4 rounded-xl border border-nle-border leading-relaxed"></p>
+        <div class="space-y-1">
+          <h4 class="font-mono font-bold text-xs uppercase tracking-wider text-brand-crimson">Cel Operacyjny</h4>
+          <p id="modalObjective" class="text-brand-ink p-4 bg-brand-stone border-l-4 border-brand-wine leading-relaxed"></p>
         </div>
 
         <!-- Strict Constraints -->
         <div class="space-y-2">
-          <h4 class="font-bold text-white flex items-center gap-2 text-xs uppercase tracking-wider font-mono text-rose-400">
-            <i data-lucide="alert-triangle" class="w-4 h-4"></i> Ograniczenia Techniczne (Constraints)
+          <h4 class="font-mono font-bold text-xs uppercase tracking-wider text-brand-pink flex items-center gap-1.5">
+            <i data-lucide="alert-octagon" class="w-3.5 h-3.5"></i> Ograniczenia Techniczne (Constraints)
           </h4>
-          <ul id="modalConstraints" class="space-y-2 text-slate-300"></ul>
+          <ul id="modalConstraints" class="space-y-2 text-xs font-sans"></ul>
         </div>
 
         <!-- Film Theory Box -->
-        <div class="bg-indigo-950/20 border border-indigo-500/30 p-4 rounded-xl space-y-2">
-          <h4 class="font-bold text-indigo-300 text-xs font-mono uppercase tracking-wider flex items-center gap-2">
-            <i data-lucide="book" class="w-4 h-4"></i> Teoria Filmowa & Psychoakustyka
+        <div class="bg-brand-blush/20 border border-brand-wine/40 p-4 space-y-1.5">
+          <h4 class="font-mono font-bold text-brand-wine text-xs uppercase tracking-wider">
+            Teoria Filmowa &amp; Psychoakustyka
           </h4>
-          <p id="modalTheory" class="text-slate-300 text-xs leading-relaxed"></p>
+          <p id="modalTheory" class="text-brand-ink/90 text-xs leading-relaxed"></p>
         </div>
 
         <!-- Mobile vs Desktop Bridge -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div class="bg-nle-card p-4 rounded-xl border border-cyan-500/30 space-y-2">
-            <h5 class="text-xs font-bold text-cyan-400 font-mono uppercase flex items-center gap-1.5">
-              <i data-lucide="smartphone" class="w-4 h-4"></i> Jak zrobić w Mobile (CapCut / AM)
-            </h5>
-            <p id="modalMobileTips" class="text-slate-300 text-xs leading-relaxed"></p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+          <div class="p-4 border border-brand-wine/30 bg-brand-stone space-y-1.5">
+            <h5 class="font-mono font-bold text-brand-wine uppercase text-[11px]">Realizacja Mobile (CapCut / AM)</h5>
+            <p id="modalMobileTips" class="text-brand-ink/80 leading-relaxed"></p>
           </div>
 
-          <div class="bg-nle-card p-4 rounded-xl border border-purple-500/30 space-y-2">
-            <h5 class="text-xs font-bold text-purple-400 font-mono uppercase flex items-center gap-1.5">
-              <i data-lucide="monitor" class="w-4 h-4"></i> Most PC (Premiere / AE)
-            </h5>
-            <p id="modalDesktopBridge" class="text-slate-300 text-xs leading-relaxed"></p>
+          <div class="p-4 border border-brand-wine/30 bg-brand-stone space-y-1.5">
+            <h5 class="font-mono font-bold text-brand-crimson uppercase text-[11px]">Most PC (Premiere / AE)</h5>
+            <p id="modalDesktopBridge" class="text-brand-ink/80 leading-relaxed"></p>
           </div>
         </div>
 
-        <!-- Submission / Completion Form -->
-        <div class="border-t border-nle-border pt-6 space-y-4">
-          <h4 class="font-bold text-white flex items-center gap-2 text-xs uppercase tracking-wider font-mono text-emerald-400">
-            <i data-lucide="check-circle" class="w-4 h-4"></i> Zapisz Ukończone Zadanie w Dzienniku
-          </h4>
+        <!-- Submission Form -->
+        <div class="border-t-2 border-brand-wine pt-6 space-y-4">
+          <h4 class="font-display font-bold text-brand-wine uppercase text-base">Zapisz Ukończone Zadanie do Dziennika</h4>
 
-          <div class="space-y-3">
+          <div class="space-y-3 font-mono text-xs">
             <div>
-              <label class="block text-xs text-slate-400 mb-1">Link do wyrenderowanego filmu (Google Drive / YouTube / Streamable):</label>
-              <input type="url" id="modalSubmissionLink" placeholder="https://..." class="w-full bg-nle-card border border-nle-border rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500">
+              <label class="block text-brand-wine uppercase font-bold mb-1">Link do wideo (Google Drive / YouTube / Streamable):</label>
+              <input type="url" id="modalSubmissionLink" placeholder="https://..." class="w-full bg-brand-stone border border-brand-wine p-2.5 text-xs text-brand-ink focus:outline-none focus:ring-1 focus:ring-brand-pink">
             </div>
 
             <div class="grid grid-cols-2 gap-3">
               <div>
-                <label class="block text-xs text-slate-400 mb-1">Czas trwania pracy (minuty):</label>
-                <input type="number" id="modalTimeSpent" value="25" class="w-full bg-nle-card border border-nle-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500">
+                <label class="block text-brand-wine uppercase font-bold mb-1">Czas pracy (minuty):</label>
+                <input type="number" id="modalTimeSpent" value="25" class="w-full bg-brand-stone border border-brand-wine p-2.5 text-xs text-brand-ink focus:outline-none focus:ring-1 focus:ring-brand-pink">
               </div>
               <div>
-                <label class="block text-xs text-slate-400 mb-1">Użyty program:</label>
-                <select id="modalUsedSoftware" class="w-full bg-nle-card border border-nle-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500">
+                <label class="block text-brand-wine uppercase font-bold mb-1">Program montażowy:</label>
+                <select id="modalUsedSoftware" class="w-full bg-brand-stone border border-brand-wine p-2.5 text-xs text-brand-ink focus:outline-none focus:ring-1 focus:ring-brand-pink">
                   <option value="Alight Motion">Alight Motion</option>
                   <option value="CapCut">CapCut</option>
                   <option value="Adobe Premiere Pro">Adobe Premiere Pro</option>
@@ -493,8 +538,8 @@
             </div>
 
             <div>
-              <label class="block text-xs text-slate-400 mb-1">Twoja notatka / autorefleksja (Co poszło super, a co sprawiło trudność?):</label>
-              <textarea id="modalReflection" rows="2" placeholder="Np. Graph editor w Alight Motion wyszedł bardzo gładko, ale wciąż mam problem z doborem odpowiedniego szumu tła..." class="w-full bg-nle-card border border-nle-border rounded-lg p-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"></textarea>
+              <label class="block text-brand-wine uppercase font-bold mb-1">Notatka / Autorefleksja (Co poszło super, co było wyzwaniem?):</label>
+              <textarea id="modalReflection" rows="2" placeholder="Wnioski z treningu..." class="w-full bg-brand-stone border border-brand-wine p-2.5 text-xs text-brand-ink focus:outline-none focus:ring-1 focus:ring-brand-pink font-sans"></textarea>
             </div>
           </div>
         </div>
@@ -502,19 +547,17 @@
       </div>
 
       <!-- Modal Footer -->
-      <div class="p-6 border-t border-nle-border bg-nle-card/50 flex flex-wrap items-center justify-between gap-3">
-        <button id="sendToAiReviewerFromModalBtn" class="px-4 py-2 rounded-lg bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 font-semibold text-xs border border-purple-500/30 flex items-center gap-2 transition-colors">
-          <i data-lucide="sparkles" class="w-4 h-4"></i>
-          <span>Oceń ten klip przez AI Reviewer</span>
+      <div class="p-6 border-t-2 border-brand-wine bg-brand-stone flex flex-wrap items-center justify-between gap-3">
+        <button id="sendToAiReviewerFromModalBtn" class="px-4 py-2.5 border border-brand-wine hover:bg-brand-blush/30 text-brand-wine font-mono text-xs font-bold uppercase transition-colors">
+          <span>&larr; Wyślij plik do AI Reviewer</span>
         </button>
 
         <div class="flex items-center gap-3">
-          <button id="cancelModalBtn" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition-colors">
-            Zamknij
+          <button id="cancelModalBtn" class="px-4 py-2.5 text-brand-wine font-mono text-xs uppercase hover:underline">
+            Anuluj
           </button>
-          <button id="submitQuestBtn" class="px-5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-lg shadow-emerald-600/20 flex items-center gap-1.5 transition-all">
-            <i data-lucide="check" class="w-4 h-4"></i>
-            <span>Zapisz w Dzienniku (+XP)</span>
+          <button id="submitQuestBtn" class="px-6 py-2.5 bg-brand-wine hover:bg-brand-crimson text-brand-stone font-display font-bold text-xs uppercase tracking-wider shadow-[3px_3px_0px_#EE4C7C] transition-all">
+            Zapisz w Dzienniku (+XP)
           </button>
         </div>
       </div>
@@ -522,53 +565,41 @@
     </div>
   </div>
 
-  <!-- ================= SETTINGS MODAL (SUPABASE & GEMINI) ================= -->
-  <div id="settingsModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-nle-surface border border-nle-border w-full max-w-lg rounded-2xl shadow-2xl p-6 space-y-6">
+  <!-- ================= SETTINGS MODAL ================= -->
+  <div id="settingsModal" class="fixed inset-0 z-50 bg-brand-ink/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white border-2 border-brand-wine w-full max-w-lg shadow-[12px_12px_0px_#5D001E] p-6 sm:p-8 space-y-6">
       
-      <div class="flex items-center justify-between border-b border-nle-border pb-4">
-        <div class="space-y-0.5">
-          <h3 class="text-lg font-bold text-white flex items-center gap-2">
-            <i data-lucide="settings" class="w-5 h-5 text-indigo-400"></i>
-            Ustawienia & Integracje Chmurowe
-          </h3>
-          <p class="text-xs text-slate-400">Klucze zapisywane są tylko w Twojej przeglądarce (LocalStorage)</p>
+      <div class="flex items-center justify-between border-b-2 border-brand-wine pb-4">
+        <div>
+          <h3 class="font-display font-black text-xl uppercase text-brand-wine">Ustawienia &amp; Chmura</h3>
+          <p class="text-xs font-mono text-brand-crimson">Klucze przechowywane lokalnie w LocalStorage</p>
         </div>
-        <button id="closeSettingsModalBtn" class="p-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white">
+        <button id="closeSettingsModalBtn" class="w-8 h-8 border border-brand-wine hover:bg-brand-wine hover:text-white flex items-center justify-center text-brand-wine">
           <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
 
-      <div class="space-y-4 text-xs">
-        <!-- Gemini API Key -->
-        <div class="space-y-1.5 bg-nle-card p-4 rounded-xl border border-nle-border">
-          <div class="flex items-center justify-between">
-            <label class="font-bold text-purple-400 flex items-center gap-1.5">
-              <i data-lucide="key" class="w-3.5 h-3.5"></i> Google Gemini API Key
-            </label>
-            <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-[11px] text-cyan-400 hover:underline">Pobierz darmowy klucz ↗</a>
+      <div class="space-y-4 text-xs font-mono">
+        <div class="p-4 bg-brand-stone border border-brand-wine space-y-2">
+          <div class="flex justify-between items-center">
+            <label class="font-bold text-brand-wine uppercase">Google Gemini API Key:</label>
+            <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-[10px] text-brand-pink underline">Darmowy klucz ↗</a>
           </div>
-          <p class="text-[11px] text-slate-400">Pozwala AI na bezpośrednią analizę nadsyłanych plików wideo (format MP4/MOV).</p>
-          <input type="password" id="geminiApiKeyInput" placeholder="AIzaSy..." class="w-full bg-nle-surface border border-nle-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500 font-mono">
+          <input type="password" id="geminiApiKeyInput" placeholder="AIzaSy..." class="w-full bg-white border border-brand-wine p-2 text-xs text-brand-ink focus:outline-none">
         </div>
 
-        <!-- Supabase Configuration -->
-        <div class="space-y-1.5 bg-nle-card p-4 rounded-xl border border-nle-border">
-          <label class="font-bold text-emerald-400 flex items-center gap-1.5">
-            <i data-lucide="database" class="w-3.5 h-3.5"></i> Baza Danych Supabase (Opcjonalnie)
-          </label>
-          <p class="text-[11px] text-slate-400">Bez Supabase dane zapisują się lokalnie w przeglądarce. Po podaniu URL i Anon Key dane synchronizują się z chmurą.</p>
-          
-          <div class="space-y-2 pt-1">
-            <input type="text" id="supabaseUrlInput" placeholder="https://twoj-projekt.supabase.co" class="w-full bg-nle-surface border border-nle-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 font-mono">
-            <input type="password" id="supabaseAnonKeyInput" placeholder="eyJhbGciOi..." class="w-full bg-nle-surface border border-nle-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 font-mono">
+        <div class="p-4 bg-brand-stone border border-brand-wine space-y-2">
+          <label class="font-bold text-brand-wine uppercase">Supabase Cloud Sync:</label>
+          <div class="space-y-2">
+            <input type="text" id="supabaseUrlInput" placeholder="https://twoj-projekt.supabase.co" class="w-full bg-white border border-brand-wine p-2 text-xs text-brand-ink focus:outline-none">
+            <input type="password" id="supabaseAnonKeyInput" placeholder="Anon Key..." class="w-full bg-white border border-brand-wine p-2 text-xs text-brand-ink focus:outline-none">
           </div>
         </div>
       </div>
 
-      <div class="flex justify-end gap-3 pt-2">
-        <button id="saveSettingsBtn" class="px-5 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-lg shadow-indigo-600/30 transition-all">
-          Zapisz Ustawienia
+      <div class="flex justify-end pt-2">
+        <button id="saveSettingsBtn" class="px-6 py-2.5 bg-brand-wine hover:bg-brand-crimson text-brand-stone font-display font-bold text-xs uppercase tracking-wider shadow-[3px_3px_0px_#EE4C7C] transition-all">
+          Zapisz Konfigurację
         </button>
       </div>
 
@@ -576,15 +607,15 @@
   </div>
 
   <!-- FOOTER -->
-  <footer class="border-t border-nle-border/60 bg-nle-surface py-6 text-xs text-slate-500">
+  <footer class="border-t-2 border-brand-wine bg-brand-stone py-8 text-xs font-mono text-brand-wine/80 mt-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-2">
-        <span class="text-indigo-400 font-mono">◆</span>
-        <span><strong>EditForge</strong> – Zaprojektowane dla rozwoju przyszłych Senior Editorów.</span>
+      <div class="flex items-center gap-3">
+        <div class="w-5 h-5 bg-brand-wine text-brand-stone flex items-center justify-center font-bold text-[10px]">E</div>
+        <span><strong>EDITFORGE</strong> &mdash; Projekt rozwoju umiejętności montażu wideo.</span>
       </div>
-      <div class="flex items-center gap-4 text-slate-400 font-mono text-[11px]">
-        <span>CapCut &bull; Alight Motion &bull; Premiere Pro &bull; After Effects</span>
-        <a href="https://github.com" target="_blank" class="hover:text-white transition-colors">GitHub Pages Ready</a>
+      <div class="flex items-center gap-4 text-[11px]">
+        <span>CAPCUT &bull; ALIGHT MOTION &bull; PREMIERE &bull; AFTER EFFECTS</span>
+        <a href="https://github.com/Babingtonn/babingtonn.github.io" target="_blank" class="text-brand-pink underline font-bold">GitHub Pages</a>
       </div>
     </div>
   </footer>
@@ -593,7 +624,6 @@
   <script src="data/quests.js"></script>
   <script src="js/app.js"></script>
   <script>
-    // Initialize Lucide icons
     lucide.createIcons();
   </script>
 </body>

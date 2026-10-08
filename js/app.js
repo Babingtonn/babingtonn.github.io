@@ -298,56 +298,46 @@
     filtered.forEach(quest => {
       const isCompleted = state.user.completedQuests.includes(quest.id);
       
-      // Color schemes by pillar
-      let pillarBorder = "border-indigo-500/30";
-      let pillarBadgeClass = "bg-indigo-500/10 text-indigo-400 border-indigo-500/20";
-      if (quest.pillar === "sound") {
-        pillarBadgeClass = "bg-cyan-500/10 text-cyan-400 border-cyan-500/20";
-      } else if (quest.pillar === "motion") {
-        pillarBadgeClass = "bg-purple-500/10 text-purple-400 border-purple-500/20";
-      } else if (quest.pillar === "pacing") {
-        pillarBadgeClass = "bg-rose-500/10 text-rose-400 border-rose-500/20";
-      } else if (quest.pillar === "compositing") {
-        pillarBadgeClass = "bg-amber-500/10 text-amber-400 border-amber-500/20";
-      } else if (quest.pillar === "desktop") {
-        pillarBadgeClass = "bg-blue-500/10 text-blue-400 border-blue-500/20";
-      }
-
       const card = document.createElement("div");
-      card.className = `quest-card bg-nle-card rounded-xl border border-nle-border p-5 flex flex-col justify-between cursor-pointer ${isCompleted ? 'border-emerald-500/50 bg-emerald-950/10' : ''}`;
+      card.className = `quest-card p-6 flex flex-col justify-between cursor-pointer ${isCompleted ? 'completed-card' : ''}`;
       card.onclick = () => openQuestModal(quest);
 
       card.innerHTML = `
-        <div class="space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="px-2 py-0.5 rounded text-[11px] font-mono font-semibold border ${pillarBadgeClass}">
-              ${quest.id} &bull; ${quest.pillarName}
+        <div class="space-y-4">
+          <div class="flex items-center justify-between border-b border-brand-wine/20 pb-3">
+            <span class="text-xs font-mono font-bold text-brand-crimson">
+              [ ${quest.id} ]
             </span>
             ${isCompleted 
-              ? `<span class="flex items-center gap-1 text-[11px] text-emerald-400 font-mono font-bold bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30"><i data-lucide="check" class="w-3 h-3"></i> ZROBIONE</span>` 
-              : `<span class="text-[11px] font-mono text-slate-400">${quest.difficulty}</span>`
+              ? `<span class="px-2 py-0.5 bg-brand-wine text-brand-stone text-[10px] font-mono font-bold uppercase tracking-wider">&check; ZROBIONE</span>` 
+              : `<span class="text-[11px] font-mono text-brand-wine uppercase font-semibold">${quest.difficulty}</span>`
             }
           </div>
 
           <div>
-            <h3 class="font-bold text-white text-base group-hover:text-indigo-300 transition-colors">${quest.title}</h3>
-            <p class="text-xs text-slate-400 mt-0.5 line-clamp-1">${quest.subtitle}</p>
+            <span class="text-[10px] font-mono uppercase tracking-widest text-brand-crimson font-bold block mb-1">
+              ${quest.pillarName}
+            </span>
+            <h3 class="font-display font-black text-xl text-brand-wine uppercase leading-tight tracking-tight">${quest.title}</h3>
+            <p class="text-xs font-sans text-brand-ink/75 mt-1 line-clamp-1">${quest.subtitle}</p>
           </div>
 
-          <p class="text-xs text-slate-300 line-clamp-2 leading-relaxed">${quest.objective}</p>
+          <p class="text-xs font-sans text-brand-ink/90 line-clamp-2 leading-relaxed border-l-2 border-brand-wine/30 pl-3">
+            ${quest.objective}
+          </p>
         </div>
 
-        <div class="pt-4 mt-4 border-t border-nle-border/60 flex items-center justify-between text-xs text-slate-400">
-          <div class="flex items-center gap-2">
-            <span class="flex items-center gap-1 text-slate-400">
-              <i data-lucide="clock" class="w-3.5 h-3.5"></i> ${quest.estimatedMinutes}m
+        <div class="pt-4 mt-6 border-t-2 border-brand-wine flex items-center justify-between text-xs font-mono">
+          <div class="flex items-center gap-3">
+            <span class="text-brand-ink font-semibold">
+              &bull; ${quest.estimatedMinutes}m
             </span>
-            <span class="flex items-center gap-1 text-amber-400 font-mono font-semibold">
-              <i data-lucide="zap" class="w-3.5 h-3.5"></i> +${quest.xpReward} XP
+            <span class="text-brand-pink font-bold">
+              +${quest.xpReward} XP
             </span>
           </div>
 
-          <span class="text-indigo-400 hover:text-indigo-300 font-medium text-xs flex items-center gap-1">
+          <span class="font-display font-black uppercase text-xs text-brand-wine hover:text-brand-pink tracking-wider flex items-center gap-1 transition-colors">
             Szczegóły &rarr;
           </span>
         </div>
@@ -623,26 +613,26 @@
     const safeZoneScore = 9;
 
     container.innerHTML = `
-      <div class="bg-gradient-to-b from-nle-card to-slate-900 border border-purple-500/40 rounded-2xl p-6 sm:p-8 space-y-6 shadow-2xl">
+      <div class="border-2 border-brand-wine bg-white p-6 sm:p-8 space-y-6 shadow-[6px_6px_0px_#5D001E]">
         
         <!-- Header of Audit -->
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-6 border-b border-nle-border">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-6 border-b-2 border-brand-wine">
           <div class="space-y-1">
             <div class="flex items-center gap-2">
-              <span class="px-2 py-0.5 rounded text-[11px] font-mono bg-purple-500/20 text-purple-300 font-bold border border-purple-500/30">AUDYT AI UKOŃCZONY</span>
-              <span class="text-xs text-slate-400 font-mono">${new Date().toLocaleTimeString("pl-PL")}</span>
+              <span class="px-2 py-0.5 bg-brand-wine text-brand-stone text-[10px] font-mono font-bold uppercase tracking-wider">AUDYT AI ZAKOŃCZONY</span>
+              <span class="text-xs text-brand-crimson font-mono font-bold">${new Date().toLocaleTimeString("pl-PL")}</span>
             </div>
-            <h3 class="text-xl sm:text-2xl font-black text-white">Raport Jakości: ${quest.title}</h3>
-            <p class="text-xs text-slate-400 font-mono">Plik: <span class="text-slate-200">${filename}</span> &bull; Program: <span class="text-indigo-400">${software}</span></p>
+            <h3 class="text-2xl font-display font-black text-brand-wine uppercase tracking-tight">${quest.title}</h3>
+            <p class="text-xs text-brand-ink/80 font-mono">Plik: <span class="font-bold text-brand-wine">${filename}</span> &bull; Software: <span class="text-brand-crimson font-bold">${software}</span></p>
           </div>
 
           <!-- Total Score Pill -->
-          <div class="flex items-center gap-3 bg-purple-950/40 border border-purple-500/40 px-5 py-3 rounded-2xl">
+          <div class="flex items-center gap-4 bg-brand-stone border border-brand-wine px-5 py-3 shadow-[3px_3px_0px_#5D001E]">
             <div class="text-right">
-              <span class="text-[10px] text-purple-300 font-mono uppercase tracking-wider block">Ocena Łączna</span>
-              <span class="text-3xl font-black text-white font-mono">${score}<span class="text-purple-400 text-lg">/100</span></span>
+              <span class="text-[10px] text-brand-crimson font-mono uppercase font-bold tracking-wider block">Ocena Łączna</span>
+              <span class="text-3xl font-display font-black text-brand-wine">${score}<span class="text-brand-pink text-lg">/100</span></span>
             </div>
-            <div class="w-10 h-10 rounded-xl bg-purple-500/20 flex items-center justify-center text-purple-300 font-black text-lg">
+            <div class="w-10 h-10 bg-brand-wine flex items-center justify-center text-brand-stone font-display font-black text-lg">
               ${score >= 90 ? 'A+' : score >= 85 ? 'A' : 'B+'}
             </div>
           </div>
@@ -650,43 +640,43 @@
 
         <!-- 4 Metric Bars -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs font-mono">
-          <div class="bg-nle-surface p-3.5 rounded-xl border border-nle-border space-y-1.5">
-            <div class="flex justify-between text-slate-400">
-              <span>Pacing & Cięcia</span>
-              <span class="text-indigo-400 font-bold">${pacingScore}/10</span>
+          <div class="bg-brand-stone p-3.5 border border-brand-wine space-y-1.5">
+            <div class="flex justify-between text-brand-wine font-bold">
+              <span>Pacing &amp; Cięcia</span>
+              <span class="text-brand-pink">${pacingScore}/10</span>
             </div>
-            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
-              <div class="h-full bg-indigo-500 rounded-full" style="width: ${pacingScore * 10}%;"></div>
-            </div>
-          </div>
-
-          <div class="bg-nle-surface p-3.5 rounded-xl border border-nle-border space-y-1.5">
-            <div class="flex justify-between text-slate-400">
-              <span>Rytm & Audio</span>
-              <span class="text-cyan-400 font-bold">${soundScore}/10</span>
-            </div>
-            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
-              <div class="h-full bg-cyan-400 rounded-full" style="width: ${soundScore * 10}%;"></div>
+            <div class="w-full h-2 bg-white border border-brand-wine overflow-hidden">
+              <div class="h-full bg-brand-wine" style="width: ${pacingScore * 10}%;"></div>
             </div>
           </div>
 
-          <div class="bg-nle-surface p-3.5 rounded-xl border border-nle-border space-y-1.5">
-            <div class="flex justify-between text-slate-400">
-              <span>Graph & Easing</span>
-              <span class="text-purple-400 font-bold">${motionScore}/10</span>
+          <div class="bg-brand-stone p-3.5 border border-brand-wine space-y-1.5">
+            <div class="flex justify-between text-brand-wine font-bold">
+              <span>Rytm &amp; Audio</span>
+              <span class="text-brand-pink">${soundScore}/10</span>
             </div>
-            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
-              <div class="h-full bg-purple-500 rounded-full" style="width: ${motionScore * 10}%;"></div>
+            <div class="w-full h-2 bg-white border border-brand-wine overflow-hidden">
+              <div class="h-full bg-brand-wine" style="width: ${soundScore * 10}%;"></div>
             </div>
           </div>
 
-          <div class="bg-nle-surface p-3.5 rounded-xl border border-nle-border space-y-1.5">
-            <div class="flex justify-between text-slate-400">
+          <div class="bg-brand-stone p-3.5 border border-brand-wine space-y-1.5">
+            <div class="flex justify-between text-brand-wine font-bold">
+              <span>Graph &amp; Easing</span>
+              <span class="text-brand-pink">${motionScore}/10</span>
+            </div>
+            <div class="w-full h-2 bg-white border border-brand-wine overflow-hidden">
+              <div class="h-full bg-brand-wine" style="width: ${motionScore * 10}%;"></div>
+            </div>
+          </div>
+
+          <div class="bg-brand-stone p-3.5 border border-brand-wine space-y-1.5">
+            <div class="flex justify-between text-brand-wine font-bold">
               <span>Safe Zones (9:16)</span>
-              <span class="text-emerald-400 font-bold">${safeZoneScore}/10</span>
+              <span class="text-brand-pink">${safeZoneScore}/10</span>
             </div>
-            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
-              <div class="h-full bg-emerald-500 rounded-full" style="width: ${safeZoneScore * 10}%;"></div>
+            <div class="w-full h-2 bg-white border border-brand-wine overflow-hidden">
+              <div class="h-full bg-brand-wine" style="width: ${safeZoneScore * 10}%;"></div>
             </div>
           </div>
         </div>
@@ -695,38 +685,38 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
           
           <!-- Strengths -->
-          <div class="bg-emerald-950/20 border border-emerald-500/30 p-4 rounded-xl space-y-2">
-            <h4 class="font-bold text-emerald-400 flex items-center gap-1.5 text-xs font-mono uppercase">
-              <i data-lucide="check-circle" class="w-4 h-4"></i> Mocne Strony Montażu
+          <div class="bg-brand-blush/20 border border-brand-wine p-4 space-y-2">
+            <h4 class="font-mono font-bold text-brand-wine flex items-center gap-1.5 uppercase tracking-wider text-xs">
+              <i data-lucide="check" class="w-4 h-4 text-brand-wine"></i> Mocne Strony Montażu
             </h4>
-            <ul class="space-y-1.5 text-slate-300">
+            <ul class="space-y-1.5 text-brand-ink/90 font-sans">
               <li class="flex items-start gap-2">
-                <span class="text-emerald-400 font-bold">&bull;</span>
+                <span class="text-brand-wine font-bold">&bull;</span>
                 <span><strong>Precyzyjny punkt kulminacyjny:</strong> Transient uderzenia idealnie pokrywa się ze zmianą kadru (0 klatek przesunięcia).</span>
               </li>
               <li class="flex items-start gap-2">
-                <span class="text-emerald-400 font-bold">&bull;</span>
+                <span class="text-brand-wine font-bold">&bull;</span>
                 <span><strong>Naturalne wyhamowanie:</strong> Wykres prędkości w animacji wykazuje miękkie wygaszenie (Ease-out), unikając sztucznego ruchu liniowego.</span>
               </li>
               <li class="flex items-start gap-2">
-                <span class="text-emerald-400 font-bold">&bull;</span>
+                <span class="text-brand-wine font-bold">&bull;</span>
                 <span><strong>Dobre wykorzystanie strefy bezpiecznej:</strong> Elementy typograficzne nie wchodzą pod interfejs dolny TikToka.</span>
               </li>
             </ul>
           </div>
 
           <!-- Areas to Improve -->
-          <div class="bg-amber-950/20 border border-amber-500/30 p-4 rounded-xl space-y-2">
-            <h4 class="font-bold text-amber-400 flex items-center gap-1.5 text-xs font-mono uppercase">
-              <i data-lucide="alert-circle" class="w-4 h-4"></i> Co Można Udoskonalić (Senior Editor Notes)
+          <div class="bg-white border border-brand-crimson p-4 space-y-2">
+            <h4 class="font-mono font-bold text-brand-crimson flex items-center gap-1.5 uppercase tracking-wider text-xs">
+              <i data-lucide="alert-triangle" class="w-4 h-4 text-brand-crimson"></i> Wskazówki Starszego Montażysty
             </h4>
-            <ul class="space-y-1.5 text-slate-300">
+            <ul class="space-y-1.5 text-brand-ink/90 font-sans">
               <li class="flex items-start gap-2">
-                <span class="text-amber-400 font-bold">&bull;</span>
-                <span><strong>Płynność wejścia audio:</strong> Warto dodać mikroskopijny fade-in (2 klatki) na początku sampla, aby uniknąć cyfrowego kliku (click artifact).</span>
+                <span class="text-brand-crimson font-bold">&bull;</span>
+                <span><strong>Płynność wejścia audio:</strong> Warto dodać mikro-fade-in (2 klatki) na początku sampla, aby uniknąć cyfrowego kliknięcia.</span>
               </li>
               <li class="flex items-start gap-2">
-                <span class="text-amber-400 font-bold">&bull;</span>
+                <span class="text-brand-crimson font-bold">&bull;</span>
                 <span><strong>Kontrast dynamiczny:</strong> Wyciszenie muzyki tła na 150 ms przed uderzeniem podbiłoby wrażenie potęgi uderzenia basu.</span>
               </li>
             </ul>
@@ -735,11 +725,10 @@
         </div>
 
         <!-- Save to Logbook CTA -->
-        <div class="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-nle-border">
-          <p class="text-xs text-slate-400 font-mono">Chcesz dołączyć ten raport do Dziennika i zdobyć XP za zadanie?</p>
-          <button id="saveAuditToLogbookBtn" class="px-5 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-lg shadow-emerald-600/20 flex items-center gap-1.5 transition-all">
-            <i data-lucide="plus-circle" class="w-4 h-4"></i>
-            <span>Zapisz w Dzienniku (+${quest.xpReward} XP)</span>
+        <div class="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-brand-wine/30 font-mono text-xs">
+          <p class="text-brand-ink/80">Chcesz dołączyć ten raport do Dziennika i zdobyć XP za zadanie?</p>
+          <button id="saveAuditToLogbookBtn" class="px-6 py-2.5 bg-brand-wine hover:bg-brand-crimson text-brand-stone font-display font-bold text-xs uppercase tracking-wider shadow-[3px_3px_0px_#EE4C7C] transition-all">
+            Zapisz w Dzienniku (+${quest.xpReward} XP)
           </button>
         </div>
 
@@ -780,34 +769,36 @@
     grid.innerHTML = "";
     ROSETTA_STONE.forEach(item => {
       const card = document.createElement("div");
-      card.className = "bg-nle-card rounded-2xl border border-nle-border p-6 space-y-4 hover:border-cyan-500/40 transition-colors";
+      card.className = "border-2 border-brand-wine bg-white p-6 space-y-4 shadow-[4px_4px_0px_#5D001E]";
       card.innerHTML = `
-        <div class="flex items-center justify-between">
-          <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
-            ${item.category}
+        <div class="flex items-center justify-between border-b border-brand-wine/20 pb-3">
+          <span class="text-xs font-mono font-bold text-brand-crimson uppercase tracking-wider">
+            [ ${item.category} ]
           </span>
-          <i data-lucide="arrow-right-left" class="w-4 h-4 text-cyan-400"></i>
+          <span class="text-xs font-mono font-bold text-brand-pink">&harr; TRANSITION</span>
         </div>
 
-        <div class="grid grid-cols-2 gap-3 text-xs">
+        <div class="grid grid-cols-2 gap-3 text-xs font-mono">
           <!-- Mobile column -->
-          <div class="bg-nle-surface p-3 rounded-xl border border-cyan-500/20 space-y-1">
-            <span class="text-[10px] uppercase font-mono text-cyan-400 font-bold block">${item.mobileApp}</span>
-            <p class="font-bold text-white">${item.mobileFeature}</p>
+          <div class="p-3 bg-brand-stone border border-brand-wine/40 space-y-1">
+            <span class="text-[10px] uppercase font-bold text-brand-crimson block">${item.mobileApp}</span>
+            <p class="font-bold text-brand-wine">${item.mobileFeature}</p>
           </div>
 
           <!-- Desktop column -->
-          <div class="bg-nle-surface p-3 rounded-xl border border-purple-500/20 space-y-1">
-            <span class="text-[10px] uppercase font-mono text-purple-400 font-bold block">${item.desktopApp}</span>
+          <div class="p-3 bg-brand-wine text-brand-stone space-y-1">
+            <span class="text-[10px] uppercase font-bold text-brand-blush block">${item.desktopApp}</span>
             <p class="font-bold text-white">${item.desktopFeature}</p>
           </div>
         </div>
 
-        <p class="text-xs text-slate-300 leading-relaxed">${item.explanation}</p>
+        <p class="text-xs font-sans text-brand-ink/90 leading-relaxed border-l-2 border-brand-wine/30 pl-3">
+          ${item.explanation}
+        </p>
 
-        <div class="p-3 rounded-xl bg-indigo-950/30 border border-indigo-500/20 text-xs flex items-start gap-2">
-          <i data-lucide="lightbulb" class="w-4 h-4 text-amber-400 shrink-0 mt-0.5"></i>
-          <span class="text-slate-300 font-mono text-[11px]"><strong class="text-amber-300">Pro Tip:</strong> ${item.proTip}</span>
+        <div class="p-3 bg-brand-blush/20 border border-brand-wine/30 text-xs flex items-start gap-2 font-mono">
+          <span class="text-brand-pink font-bold shrink-0">&bull;</span>
+          <span class="text-brand-wine text-[11px]"><strong class="uppercase text-brand-crimson">PRO TIP:</strong> ${item.proTip}</span>
         </div>
       `;
       grid.appendChild(card);
@@ -825,9 +816,8 @@
 
     if (state.user.logs.length === 0) {
       list.innerHTML = `
-        <div class="text-center py-12 text-slate-500 bg-nle-card rounded-xl border border-nle-border">
-          <i data-lucide="book-open" class="w-10 h-10 mx-auto mb-2 opacity-40"></i>
-          <p class="text-xs">Brak ukończonych zadań w dzienniku. Rozpocznij pierwsze wyzwanie!</p>
+        <div class="text-center py-12 text-brand-wine/60 bg-white border border-brand-wine font-mono text-xs">
+          <p class="uppercase">[ Brak wpisów w dzienniku. Rozpocznij pierwsze zadanie! ]</p>
         </div>
       `;
       if (window.lucide) lucide.createIcons();
@@ -836,36 +826,34 @@
 
     state.user.logs.forEach(log => {
       const item = document.createElement("div");
-      item.className = "bg-nle-card rounded-xl border border-nle-border p-5 space-y-3 hover:border-emerald-500/40 transition-colors";
+      item.className = "border-2 border-brand-wine bg-white p-5 space-y-3 shadow-[4px_4px_0px_#5D001E]";
       item.innerHTML = `
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-brand-wine/20 pb-3">
           <div class="flex items-center gap-2">
-            <span class="px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+            <span class="px-2 py-0.5 bg-brand-wine text-brand-stone font-mono font-bold text-xs">
               ${log.questId}
             </span>
-            <h4 class="font-bold text-white text-sm">${log.questTitle}</h4>
+            <h4 class="font-display font-black text-brand-wine text-base uppercase">${log.questTitle}</h4>
           </div>
 
-          <div class="flex items-center gap-3 text-xs font-mono text-slate-400">
-            <span>${log.completedAt}</span>
-            <span class="text-indigo-400">${log.software}</span>
-            <span class="text-amber-400 font-bold">+${log.xpEarned || 150} XP</span>
-            ${log.aiScore ? `<span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-bold border border-purple-500/30">AI: ${log.aiScore}%</span>` : ''}
+          <div class="flex items-center gap-3 text-xs font-mono">
+            <span class="text-brand-ink/70 font-semibold">${log.completedAt}</span>
+            <span class="text-brand-crimson font-bold uppercase">${log.software}</span>
+            <span class="text-brand-pink font-bold">+${log.xpEarned || 150} XP</span>
+            ${log.aiScore ? `<span class="px-2 py-0.5 bg-brand-wine text-brand-stone font-bold text-[10px]">AI: ${log.aiScore}%</span>` : ''}
           </div>
         </div>
 
-        <div class="bg-nle-surface p-3 rounded-lg border border-nle-border text-xs text-slate-300">
-          <strong class="text-slate-400 block mb-1">Autorefleksja / Lessons Learned:</strong>
+        <div class="p-3 bg-brand-stone border-l-4 border-brand-wine text-xs font-sans text-brand-ink">
+          <strong class="text-brand-crimson block font-mono text-[10px] uppercase tracking-wider mb-1">Autorefleksja &bull; Wnioski:</strong>
           <p>${log.reflection}</p>
         </div>
 
-        <div class="flex items-center justify-between text-xs text-slate-400 pt-1">
-          <span class="flex items-center gap-1 font-mono">
-            <i data-lucide="clock" class="w-3.5 h-3.5"></i> Czas pracy: ${log.timeSpent} minut
-          </span>
+        <div class="flex items-center justify-between text-xs font-mono text-brand-ink/75 pt-1">
+          <span>&bull; Czas trwania: ${log.timeSpent} minut</span>
           ${log.clipUrl && log.clipUrl.startsWith('http') 
-            ? `<a href="${log.clipUrl}" target="_blank" class="text-cyan-400 hover:underline flex items-center gap-1"><i data-lucide="external-link" class="w-3.5 h-3.5"></i> Zobacz Wideo</a>` 
-            : `<span class="text-slate-500 font-mono text-[11px]">${log.clipUrl}</span>`
+            ? `<a href="${log.clipUrl}" target="_blank" class="text-brand-pink font-bold underline flex items-center gap-1">&rarr; Zobacz Klip</a>` 
+            : `<span class="text-brand-wine/60 text-[11px]">${log.clipUrl}</span>`
           }
         </div>
       `;
