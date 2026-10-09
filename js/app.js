@@ -1,4 +1,4 @@
-﻿// EditForge Application Controller
+﻿// SKROILL Application Controller
 // Video Editor Dojo & Progression Engine
 
 (function () {
@@ -13,14 +13,13 @@
     dailyQuest: null,
     selectedFile: null,
     user: {
-      totalXp: 450,
       completedQuests: [],
       logs: []
     },
     config: {
-      geminiApiKey: localStorage.getItem("editforge_gemini_key") || "",
-      supabaseUrl: localStorage.getItem("editforge_supabase_url") || "https://bsiverhkcsjkaffueook.supabase.co",
-      supabaseKey: localStorage.getItem("editforge_supabase_key") || "sb_publishable_0YlTZVPBjXmz30Gctzq9KQ_Tyj_6u4M"
+      geminiApiKey: localStorage.getItem("SKROILL_gemini_key") || "",
+      supabaseUrl: localStorage.getItem("SKROILL_supabase_url") || "https://bsiverhkcsjkaffueook.supabase.co",
+      supabaseKey: localStorage.getItem("SKROILL_supabase_key") || "sb_publishable_0YlTZVPBjXmz30Gctzq9KQ_Tyj_6u4M"
     }
   };
 
@@ -60,9 +59,7 @@
           xpEarned: row.xp_earned || 150
         }));
         state.user.completedQuests = state.user.logs.map(l => l.questId);
-        localStorage.setItem("editforge_logs", JSON.stringify(state.user.logs));
-        calculateTotalXp();
-        renderQuests();
+        localStorage.setItem("SKROILL_logs", JSON.stringify(state.user.logs));        renderQuests();
         renderLogbook();
       }
     } catch (err) {
@@ -76,9 +73,7 @@
     if (!state.user.completedQuests.includes(newLog.questId)) {
       state.user.completedQuests.push(newLog.questId);
     }
-    localStorage.setItem("editforge_logs", JSON.stringify(state.user.logs));
-    calculateTotalXp();
-    renderQuests();
+    localStorage.setItem("SKROILL_logs", JSON.stringify(state.user.logs));    renderQuests();
     renderLogbook();
 
     const client = getSupabaseClient();
@@ -103,7 +98,7 @@
 
   // Seed sample logbook items if empty so recruiters see data immediately
   function initStorage() {
-    const savedLogs = localStorage.getItem("editforge_logs");
+    const savedLogs = localStorage.getItem("SKROILL_logs");
     if (savedLogs) {
       try {
         state.user.logs = JSON.parse(savedLogs);
@@ -138,73 +133,11 @@
           xpEarned: 160
         }
       ];
-      localStorage.setItem("editforge_logs", JSON.stringify(state.user.logs));
+      localStorage.setItem("SKROILL_logs", JSON.stringify(state.user.logs));
     }
 
-    state.user.completedQuests = state.user.logs.map(l => l.questId);
-    calculateTotalXp();
-  }
+    state.user.completedQuests = state.user.logs.map(l => l.questId);  }
 
-  function calculateTotalXp() {
-    let xp = 140; // baseline apprentice xp
-    state.user.logs.forEach(l => {
-      xp += (l.xpEarned || 150);
-    });
-    state.user.totalXp = xp;
-    updateUserXpUI();
-  }
-
-  function updateUserXpUI() {
-    const xpEl = document.getElementById("userTotalXp");
-    const statXpEl = document.getElementById("statTotalXp");
-    const barEl = document.getElementById("userXpBar");
-    const titleEl = document.getElementById("userLevelTitle");
-    const countBadgeEl = document.getElementById("completedCountBadge");
-    const statCountEl = document.getElementById("statCompletedCount");
-    const statHoursEl = document.getElementById("statTotalHours");
-    const statAvgScoreEl = document.getElementById("statAvgScore");
-
-    if (xpEl) xpEl.textContent = state.user.totalXp;
-    if (statXpEl) statXpEl.textContent = state.user.totalXp;
-
-    // Levels formula
-    let levelName = "Novice Cutter (Lvl 1)";
-    let progressPct = 20;
-
-    if (state.user.totalXp >= 1500) {
-      levelName = "Master Compositor (Lvl 5)";
-      progressPct = 100;
-    } else if (state.user.totalXp >= 1000) {
-      levelName = "Lead Storyteller (Lvl 4)";
-      progressPct = Math.min(100, Math.round(((state.user.totalXp - 1000) / 500) * 100));
-    } else if (state.user.totalXp >= 600) {
-      levelName = "Motion Specialist (Lvl 3)";
-      progressPct = Math.min(100, Math.round(((state.user.totalXp - 600) / 400) * 100));
-    } else if (state.user.totalXp >= 300) {
-      levelName = "Apprentice Cutter (Lvl 2)";
-      progressPct = Math.min(100, Math.round(((state.user.totalXp - 300) / 300) * 100));
-    }
-
-    if (titleEl) titleEl.textContent = levelName;
-    if (barEl) barEl.style.width = `${progressPct}%`;
-
-    const completedTotal = state.user.logs.length;
-    if (countBadgeEl) countBadgeEl.textContent = completedTotal;
-    if (statCountEl) statCountEl.textContent = `${completedTotal} / ${EDITFORGE_QUESTS.length}`;
-
-    // Total hours calculated from logs
-    const totalMinutes = state.user.logs.reduce((acc, curr) => acc + (parseInt(curr.timeSpent) || 20), 0);
-    const totalHours = (totalMinutes / 60).toFixed(1);
-    if (statHoursEl) statHoursEl.textContent = `${totalHours}h`;
-
-    // Average AI score
-    if (state.user.logs.length > 0) {
-      const avg = Math.round(state.user.logs.reduce((acc, curr) => acc + (curr.aiScore || 80), 0) / state.user.logs.length);
-      if (statAvgScoreEl) statAvgScoreEl.textContent = `${avg}%`;
-    }
-  }
-
-  // ================= TAB NAVIGATION =================
   function initTabs() {
     const tabBtns = document.querySelectorAll(".nav-tab");
     tabBtns.forEach(btn => {
@@ -243,7 +176,7 @@
     const grid = document.getElementById("questsGrid");
     if (!grid) return;
 
-    const filtered = EDITFORGE_QUESTS.filter(q => {
+    const filtered = SKROILL_QUESTS.filter(q => {
       const matchPillar = state.selectedPillar === "all" || q.pillar === state.selectedPillar;
       const matchTool = state.selectedTool === "all" || q.targetTools.some(t => t.toLowerCase().includes(state.selectedTool.toLowerCase()));
       const matchDiff = state.selectedDifficulty === "all" || q.difficulty === state.selectedDifficulty;
@@ -300,14 +233,7 @@
         </div>
 
         <div class="pt-4 mt-6 border-t-2 border-brand-wine flex items-center justify-between text-xs font-mono">
-          <div class="flex items-center gap-3">
-            <span class="text-brand-ink font-semibold">
-              &bull; ${quest.estimatedMinutes}m
-            </span>
-            <span class="text-brand-pink font-bold">
-              +${quest.xpReward} XP
-            </span>
-          </div>
+          
 
           <span class="font-display font-black uppercase text-xs text-brand-wine hover:text-brand-pink tracking-wider flex items-center gap-1 transition-colors">
             Szczegóły &rarr;
@@ -322,15 +248,15 @@
 
   function initDailyQuest() {
     // Pick first quest or random
-    const randomIndex = Math.floor(Math.random() * EDITFORGE_QUESTS.length);
-    state.dailyQuest = EDITFORGE_QUESTS[randomIndex];
+    const randomIndex = Math.floor(Math.random() * SKROILL_QUESTS.length);
+    state.dailyQuest = SKROILL_QUESTS[randomIndex];
     updateDailyBanner(state.dailyQuest);
 
     const rollBtn = document.getElementById("rollRandomQuestBtn");
     if (rollBtn) {
       rollBtn.addEventListener("click", () => {
-        const nextIdx = Math.floor(Math.random() * EDITFORGE_QUESTS.length);
-        state.dailyQuest = EDITFORGE_QUESTS[nextIdx];
+        const nextIdx = Math.floor(Math.random() * SKROILL_QUESTS.length);
+        state.dailyQuest = SKROILL_QUESTS[nextIdx];
         updateDailyBanner(state.dailyQuest);
       });
     }
@@ -392,6 +318,7 @@
 
   // ================= MODAL CONTROLLER =================
   function openQuestModal(quest) {
+    if (!state.user.id) { alert('Musisz być zalogowany, aby otworzyć szczegóły zadania.'); return; }
     state.currentQuest = quest;
     const modal = document.getElementById("questModal");
     if (!modal) return;
@@ -400,9 +327,7 @@
     document.getElementById("modalSubtitle").textContent = quest.subtitle;
     document.getElementById("modalPillarBadge").textContent = `${quest.id} • ${quest.pillarName}`;
     document.getElementById("modalDifficultyBadge").textContent = quest.difficulty;
-    document.getElementById("modalTimeBadge").textContent = `${quest.estimatedMinutes} minut`;
-    document.getElementById("modalXpBadge").textContent = `+${quest.xpReward} XP`;
-
+    
     document.getElementById("modalObjective").textContent = quest.objective;
     document.getElementById("modalTheory").textContent = quest.filmTheory;
     document.getElementById("modalMobileTips").textContent = quest.mobileTips;
@@ -420,11 +345,11 @@
 
     // Clear submission inputs
     document.getElementById("modalSubmissionLink").value = "";
-    document.getElementById("modalTimeSpent").value = quest.estimatedMinutes;
     document.getElementById("modalReflection").value = "";
 
     modal.classList.remove("hidden");
     modal.classList.add("flex");
+    document.body.style.overflow = "hidden";
     if (window.lucide) lucide.createIcons();
   }
 
@@ -433,6 +358,7 @@
     if (modal) {
       modal.classList.add("hidden");
       modal.classList.remove("flex");
+      document.body.style.overflow = "";
     }
   }
 
@@ -480,7 +406,7 @@
         persistLog(newLog);
         closeQuestModal();
 
-        alert(`🎉 Brawo! Zadanie zapisane w Dzienniku (i zsynchronizowane z Supabase). Zdobywasz +${state.currentQuest.xpReward} XP!`);
+        alert(`🎉 Brawo! Zadanie zapisane w Dzienniku (i zsynchronizowane z Supabase). `);
       };
     }
   }
@@ -491,7 +417,7 @@
     const questSelect = document.getElementById("aiReviewQuestSelect");
     if (questSelect) {
       questSelect.innerHTML = "";
-      EDITFORGE_QUESTS.forEach(q => {
+      SKROILL_QUESTS.forEach(q => {
         const opt = document.createElement("option");
         opt.value = q.id;
         opt.textContent = `${q.id}: ${q.title} (${q.pillarName})`;
@@ -544,6 +470,17 @@
       }
     }
 
+    const clearFileBtn = document.getElementById("clearFileBtn");
+    if (clearFileBtn) {
+      clearFileBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        state.selectedFile = null;
+        fileInput.value = "";
+        fileInfo.classList.add("hidden");
+        fileInfo.classList.remove("flex");
+      });
+    }
+
     // Run AI Audit button
     const runAuditBtn = document.getElementById("runAiAuditBtn");
     if (runAuditBtn) {
@@ -552,10 +489,11 @@
   }
 
   function runAiVideoAudit() {
+    if (!state.user.id) { alert('Musisz być zalogowany, aby używać AI Reviewer.'); return; }
     const resultContainer = document.getElementById("aiAuditResultContainer");
     const selectedQuestId = document.getElementById("aiReviewQuestSelect").value;
     const softwareUsed = document.getElementById("aiReviewSoftwareSelect").value;
-    const targetQuest = EDITFORGE_QUESTS.find(q => q.id === selectedQuestId) || EDITFORGE_QUESTS[0];
+    const targetQuest = SKROILL_QUESTS.find(q => q.id === selectedQuestId) || SKROILL_QUESTS[0];
 
     resultContainer.classList.remove("hidden");
     resultContainer.innerHTML = `
@@ -699,9 +637,9 @@
 
         <!-- Save to Logbook CTA -->
         <div class="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-brand-wine/30 font-mono text-xs">
-          <p class="text-brand-ink/80">Chcesz dołączyć ten raport do Dziennika i zdobyć XP za zadanie?</p>
+          <p class="text-brand-ink/80">Chcesz dołączyć ten raport do Dziennika?</p>
           <button id="saveAuditToLogbookBtn" class="px-6 py-2.5 bg-brand-wine hover:bg-brand-crimson text-brand-stone font-display font-bold text-xs uppercase tracking-wider shadow-[3px_3px_0px_#EE4C7C] transition-all">
-            Zapisz w Dzienniku (+${quest.xpReward} XP)
+            Zapisz w Dzienniku 
           </button>
         </div>
 
@@ -728,7 +666,7 @@
         };
 
         persistLog(newLog);
-        alert(`🎉 Wynik audytu zapisany w Dzienniku (i w Supabase)! Przyznano +${quest.xpReward} XP.`);
+        alert(`🎉 Wynik audytu zapisany w Dzienniku (i w Supabase)! `);
         switchTab("tab-logbook");
       };
     }
@@ -812,7 +750,7 @@
           <div class="flex items-center gap-3 text-xs font-mono">
             <span class="text-brand-ink/70 font-semibold">${log.completedAt}</span>
             <span class="text-brand-crimson font-bold uppercase">${log.software}</span>
-            <span class="text-brand-pink font-bold">+${log.xpEarned || 150} XP</span>
+            
             ${log.aiScore ? `<span class="px-2 py-0.5 bg-brand-wine text-brand-stone font-bold text-[10px]">AI: ${log.aiScore}%</span>` : ''}
           </div>
         </div>
@@ -845,7 +783,7 @@
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = `editforge_training_log_${Date.now()}.md`;
+        a.download = `SKROILL_training_log_${Date.now()}.md`;
         a.click();
         URL.revokeObjectURL(url);
       });
@@ -853,9 +791,8 @@
   }
 
   function generateAuditMarkdown() {
-    return `# 🎬 EditForge: Raport Postępów Montażowych (Auditable Training Record)
+    return `# 🎬 SKROILL: Raport Postępów Montażowych (Auditable Training Record)
 Data wygenerowania: ${new Date().toLocaleDateString("pl-PL")}
-Użytkownik: Poziom ${document.getElementById("userLevelTitle").textContent} (${state.user.totalXp} XP)
 
 ## Podsumowanie Statystyk
 - Łączna liczba zrealizowanych zadań: ${state.user.logs.length}
@@ -873,6 +810,102 @@ ${state.user.logs.map((l, i) => `
 - **Autorefleksja / Wnioski:** ${l.reflection}
 `).join("\n---\n")}
 `;
+  }
+
+    // ================= AUTHENTICATION =================
+  async function initAuth() {
+    const authModal = document.getElementById("authModal");
+    const openBtn = document.getElementById("openAuthModalBtn");
+    const closeBtn = document.getElementById("closeAuthModalBtn");
+    const loginBtn = document.getElementById("loginBtn");
+    const registerBtn = document.getElementById("registerBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const emailInput = document.getElementById("authEmailInput");
+    const passInput = document.getElementById("authPasswordInput");
+    const errorMsg = document.getElementById("authErrorMsg");
+    const emailDisplay = document.getElementById("userEmailDisplay");
+
+    const client = getSupabaseClient();
+    if (!client) return;
+
+    // Check active session
+    const { data: { session } } = await client.auth.getSession();
+    if (session) {
+      handleLoginSuccess(session.user);
+    }
+
+    // Listen for auth changes
+    client.auth.onAuthStateChange((event, session) => {
+      if (session) {
+        handleLoginSuccess(session.user);
+      } else {
+        handleLogout();
+      }
+    });
+
+    if (openBtn) openBtn.onclick = () => { authModal.classList.remove("hidden"); authModal.classList.add("flex"); errorMsg.classList.add("hidden"); };
+    if (closeBtn) closeBtn.onclick = () => { authModal.classList.add("hidden"); authModal.classList.remove("flex"); };
+
+    if (logoutBtn) {
+      logoutBtn.onclick = async () => {
+        await client.auth.signOut();
+      };
+    }
+
+    if (loginBtn) {
+      loginBtn.onclick = async () => {
+        errorMsg.classList.add("hidden");
+        const { data, error } = await client.auth.signInWithPassword({
+          email: emailInput.value.trim(),
+          password: passInput.value
+        });
+        if (error) {
+          errorMsg.textContent = error.message;
+          errorMsg.classList.remove("hidden");
+        } else {
+          authModal.classList.add("hidden"); authModal.classList.remove("flex");
+        }
+      };
+    }
+
+    if (registerBtn) {
+      registerBtn.onclick = async () => {
+        errorMsg.classList.add("hidden");
+        const { data, error } = await client.auth.signUp({
+          email: emailInput.value.trim(),
+          password: passInput.value
+        });
+        if (error) {
+          errorMsg.textContent = error.message;
+          errorMsg.classList.remove("hidden");
+        } else {
+          errorMsg.textContent = "Zarejestrowano pomyślnie. Możesz się zalogować.";
+          errorMsg.classList.remove("hidden", "text-brand-crimson");
+          errorMsg.classList.add("text-green-600");
+        }
+      };
+    }
+  }
+
+  function handleLoginSuccess(user) {
+    state.user.id = user.id;
+    state.user.email = user.email;
+    document.getElementById("openAuthModalBtn").classList.add("hidden");
+    document.getElementById("logoutBtn").classList.remove("hidden");
+    document.getElementById("userEmailDisplay").textContent = user.email;
+    syncFromSupabase(); // Fetch logs for this user
+  }
+
+  function handleLogout() {
+    state.user.id = null;
+    state.user.email = null;
+    state.user.logs = [];
+    state.user.completedQuests = [];
+    document.getElementById("openAuthModalBtn").classList.remove("hidden");
+    document.getElementById("logoutBtn").classList.add("hidden");
+    document.getElementById("userEmailDisplay").textContent = "Gosc";
+    renderQuests();
+    renderLogbook();
   }
 
   // ================= SETTINGS CONTROLLER =================
@@ -903,9 +936,9 @@ ${state.user.logs.map((l, i) => `
         state.config.supabaseUrl = sUrl;
         state.config.supabaseKey = sKey;
 
-        localStorage.setItem("editforge_gemini_key", gKey);
-        localStorage.setItem("editforge_supabase_url", sUrl);
-        localStorage.setItem("editforge_supabase_key", sKey);
+        localStorage.setItem("SKROILL_gemini_key", gKey);
+        localStorage.setItem("SKROILL_supabase_url", sUrl);
+        localStorage.setItem("SKROILL_supabase_key", sKey);
 
         modal.classList.replace("flex", "hidden");
         alert("✅ Ustawienia zostały bezpiecznie zapisane w LocalStorage!");
@@ -916,6 +949,7 @@ ${state.user.logs.map((l, i) => `
   // ================= BOOTSTRAP APPLICATION =================
   function init() {
     initStorage();
+    initI18n();
     initTabs();
     initFilters();
     initDailyQuest();
@@ -926,6 +960,7 @@ ${state.user.logs.map((l, i) => `
     renderLogbook();
     initExportLogbook();
     initSettings();
+    initAuth();
     syncFromSupabase();
   }
 
@@ -936,4 +971,10 @@ ${state.user.logs.map((l, i) => `
     init();
   }
 })();
+
+
+
+
+
+
 

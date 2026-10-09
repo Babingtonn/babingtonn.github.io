@@ -1,7 +1,7 @@
-// EditForge Master Quest Database
+﻿// SKROILL Master Quest Database
 // 20 Professional Video Editing Challenges across 5 Pillars
 
-const EDITFORGE_QUESTS = [
+const SKROILL_QUESTS = [
   // ================= FILAR 1: SOUND DESIGN & RYTM =================
   {
     id: "SND-01",
@@ -12,8 +12,6 @@ const EDITFORGE_QUESTS = [
     pillarIcon: "volume-2",
     difficulty: "Intermediate",
     targetTools: ["CapCut", "Alight Motion", "Premiere Pro", "After Effects"],
-    estimatedMinutes: 20,
-    xpReward: 150,
     objective: "Stworzenie jednego potężnego momentu uderzenia/przejścia w wideo przy użyciu minimum 4 odrębnych, precyzyjnie zbalansowanych warstw audio.",
     constraints: [
       "Zero gotowych, scalonych efektów 'Boom' lub 'Drop' z bibliotek szablonów.",
@@ -48,8 +46,6 @@ const EDITFORGE_QUESTS = [
     pillarIcon: "volume-2",
     difficulty: "Intermediate",
     targetTools: ["CapCut", "Premiere Pro"],
-    estimatedMinutes: 25,
-    xpReward: 160,
     objective: "Zmontowanie 15-sekundowej sceny z 3 ujęciami, w której każde przejście wizualne jest wyprzedzone (J-Cut) lub przedłużone (L-Cut) przez ścieżkę dźwiękową.",
     constraints: [
       "Całkowity zakaz twardych cięć (gdzie obraz i dźwięk zmieniają się w tej samej klatce).",
@@ -77,8 +73,6 @@ const EDITFORGE_QUESTS = [
     pillarIcon: "volume-2",
     difficulty: "Advanced",
     targetTools: ["CapCut", "Alight Motion", "Premiere Pro"],
-    estimatedMinutes: 30,
-    xpReward: 180,
     objective: "Pobierz niemy klip z pojedynczą postacią wykonującą czynność (np. picie kawy, zakładanie kurtki, pisanie na klawiaturze). Zbuduj całe udźwiękowienie od zera, dodając minimum 5 mikro-dźwięków Foley.",
     constraints: [
       "Zakaz głośnej muzyki w tle, która maskowałaby brak detali (muzyka może być max -22 dB lub brak).",
@@ -105,8 +99,6 @@ const EDITFORGE_QUESTS = [
     pillarIcon: "volume-2",
     difficulty: "Advanced",
     targetTools: ["CapCut", "Premiere Pro"],
-    estimatedMinutes: 25,
-    xpReward: 175,
     objective: "Montaż dynamicznego 10-sekundowego materiału do utworu z wyraźnym bitem, w którym cięcia celowo NIE następują na każdym uderzeniu stopy.",
     constraints: [
       "Zastosowanie zasady '3 szybkie akcenty na synkopie + 1 długie ujęcie oddechu na 2 takty'.",
@@ -134,8 +126,6 @@ const EDITFORGE_QUESTS = [
     pillarIcon: "activity",
     difficulty: "Intermediate",
     targetTools: ["Alight Motion", "After Effects"],
-    estimatedMinutes: 30,
-    xpReward: 160,
     objective: "Animacja wlotu napisu lub kształtu na ekran, który lekko przekracza punkt docelowy (overshoot), odbija się i miękko osiada.",
     constraints: [
       "Zero gotowych szablonów animacji (Bounce Presets).",
@@ -162,8 +152,6 @@ const EDITFORGE_QUESTS = [
     pillarIcon: "activity",
     difficulty: "Advanced",
     targetTools: ["Alight Motion", "After Effects"],
-    estimatedMinutes: 35,
-    xpReward: 190,
     objective: "Ręczne zbudowanie przejścia Whip Pan łączącego ujęcie A i ujęcie B z zachowaniem idealnej ciągłości kierunku i prędkości obrotu/przesunięcia.",
     constraints: [
       "Zakaz używania gotowego przejścia 'Whip' lub 'Rotate' z menu aplikacji.",
@@ -190,8 +178,6 @@ const EDITFORGE_QUESTS = [
     pillarIcon: "activity",
     difficulty: "Advanced",
     targetTools: ["CapCut", "Alight Motion", "Premiere Pro"],
-    estimatedMinutes: 40,
-    xpReward: 200,
     objective: "Stworzenie 6-sekundowego klipu ze speed rampem: płynne przejście z 1x do spowolnienia 0.2x (Slow-mo), eksplozja prędkości do 6x na cięciu i powrót do 1x.",
     constraints: [
       "Brak skokowych zmian klatkowych (płynna krzywa interpolacji prędkości).",
@@ -217,8 +203,6 @@ const EDITFORGE_QUESTS = [
     pillarIcon: "activity",
     difficulty: "Advanced",
     targetTools: ["Alight Motion", "After Effects"],
-    estimatedMinutes: 45,
-    xpReward: 220,
     objective: "Rozdzielenie jednego płaskiego zdjęcia na 3 plany (Pierwszy plan, Postać, Tło) i zanimowanie kamery tak, by powstał realistyczny efekt paralaksy.",
     constraints: [
       "Przedmioty bliżej kamery muszą poruszać się szybciej niż tło (zgodnie z optyką).",
@@ -246,8 +230,6 @@ const EDITFORGE_QUESTS = [
     pillarIcon: "scissors",
     difficulty: "Intermediate",
     targetTools: ["CapCut", "Premiere Pro"],
-    estimatedMinutes: 30,
-    xpReward: 160,
     objective: "Zbudowanie pierwszych 3 sekund wideo w pionie (Shorts/Reels/TikTok), które zatrzymują przewijanie palcem widza.",
     constraints: [
       "Ruch kamery lub obiektu obecny już w klatce 0:00:00 (zero statycznego czekania).",
@@ -274,8 +256,6 @@ const EDITFORGE_QUESTS = [
     pillarIcon: "scissors",
     difficulty: "Advanced",
     targetTools: ["CapCut", "Premiere Pro"],
-    estimatedMinutes: 35,
-    xpReward: 190,
     objective: "Połączenie dwóch zupełnie różnych ujęć (np. koło samochodu i zegarek, oko i obiektyw) za pomocą idealnej zbieżności geometrycznej w punkcie cięcia.",
     constraints: [
       "Zakaz jakichkolwiek rozmyć, przejść typu fade, whip czy glitch.",
@@ -302,8 +282,6 @@ const EDITFORGE_QUESTS = [
     pillarIcon: "scissors",
     difficulty: "Intermediate",
     targetTools: ["CapCut", "Premiere Pro"],
-    estimatedMinutes: 25,
-    xpReward: 150,
     objective: "Seria 4 szybkich cięć (każde poniżej 0.8 sekundy), w których punkt skupienia wzroku widza pozostaje w tym samym wyznaczonym okręgu ekranu.",
     constraints: [
       "Widz nie może mieć potrzeby 'skakania wzrokiem' po rogach ekranu.",
@@ -329,8 +307,6 @@ const EDITFORGE_QUESTS = [
     pillarIcon: "scissors",
     difficulty: "Master",
     targetTools: ["CapCut", "Premiere Pro"],
-    estimatedMinutes: 45,
-    xpReward: 240,
     objective: "Stworzenie 20-sekundowej sekwencji, która buduje napięcie coraz szybszymi cięciami (staccato), po czym w punkcie kulminacyjnym zawiesza akcję na jednym 5-sekundowym, powolnym ujęciu z dźwiękiem wyciszenia.",
     constraints: [
       "Kolejne ujęcia przed punktem kulminacyjnym muszą skracać się matematycznie (np. 1.2s -> 0.8s -> 0.5s -> 0.2s).",
@@ -358,8 +334,6 @@ const EDITFORGE_QUESTS = [
     pillarIcon: "layers",
     difficulty: "Intermediate",
     targetTools: ["Alight Motion", "After Effects"],
-    estimatedMinutes: 35,
-    xpReward: 180,
     objective: "Ukrycie przejścia między dwoma ujęciami za postacią lub obiektem pierwszoplanowym przechodzącym przed kamerą (słup, człowiek, krawędź ściany).",
     constraints: [
       "Ręcznie prowadzona maska śledząca krawędź obiektu klatka po klatce.",
@@ -385,8 +359,6 @@ const EDITFORGE_QUESTS = [
     pillarIcon: "layers",
     difficulty: "Advanced",
     targetTools: ["CapCut", "Alight Motion", "After Effects"],
-    estimatedMinutes: 40,
-    xpReward: 195,
     objective: "Umieszczenie animowanego napisu ZA postacią znajdującą się w centrum kadru, z zachowaniem cieniowania i spójności oświetlenia.",
     constraints: [
       "Trzy warstwy: Tło (oryginał), Warstwa pośrednia (Tekst), Warstwa wierzchnia (Wycięta postać).",
@@ -412,8 +384,6 @@ const EDITFORGE_QUESTS = [
     pillarIcon: "layers",
     difficulty: "Advanced",
     targetTools: ["Alight Motion", "After Effects", "Premiere Pro"],
-    estimatedMinutes: 35,
-    xpReward: 185,
     objective: "Ręczne stworzenie efektu halacji taśmy filmowej (czerwonawe/ciepłe rozproszenie światła wokół jasnych źródeł) bez używania gotowych wtyczek.",
     constraints: [
       "Zakaz gotowych presetów typu 'Film Look One-Click'.",
@@ -439,8 +409,6 @@ const EDITFORGE_QUESTS = [
     pillarIcon: "layers",
     difficulty: "Intermediate",
     targetTools: ["CapCut", "Premiere Pro"],
-    estimatedMinutes: 30,
-    xpReward: 170,
     objective: "Nadanie scenie kontrastowego zabarwienia (np. chłodne cienie i ciepłe światła - Teal & Orange) przy zachowaniu w 100% naturalnego odcienia skóry postaci.",
     constraints: [
       "Odcień skóry na twarzy musi pozostać na naturalnej linii odcienia (Skin Tone Line).",
@@ -468,8 +436,6 @@ const EDITFORGE_QUESTS = [
     pillarIcon: "monitor",
     difficulty: "Beginner in AE",
     targetTools: ["Alight Motion", "After Effects"],
-    estimatedMinutes: 30,
-    xpReward: 170,
     objective: "Odwzorowanie 3 fundamentalnych krzywych prędkości z Alight Motion w zaawansowanym edytorze wykresów After Effects (Speed Graph i Value Graph).",
     constraints: [
       "Stworzenie: 1. Snap Curve (agresywny start), 2. S-Curve (płynny środek), 3. Overshoot (przekroczenie wartości).",
@@ -495,8 +461,6 @@ const EDITFORGE_QUESTS = [
     pillarIcon: "monitor",
     difficulty: "Intermediate in Premiere",
     targetTools: ["Premiere Pro"],
-    estimatedMinutes: 35,
-    xpReward: 200,
     objective: "Zmontowanie 30-sekundowej surowej sekwencji (Rough Cut) z 10 klipów bez używania myszki do przesuwania, cięcia i usuwania przerw.",
     constraints: [
       "Myszka może służyć wyłącznie do otwarcia programu.",
@@ -522,8 +486,6 @@ const EDITFORGE_QUESTS = [
     pillarIcon: "monitor",
     difficulty: "Intermediate in AE",
     targetTools: ["After Effects"],
-    estimatedMinutes: 40,
-    xpReward: 210,
     objective: "Zbudowanie złożonej animacji z 10 elementów graficznych zorganizowanych w 2 podkompozycje (Pre-compositions) kontrolowane przez nadrzędny Null Object z suwakami Expression Controls.",
     constraints: [
       "Główna oś czasu (Main Comp) nie może zawierać więcej niż 4 warstwy.",
@@ -549,8 +511,6 @@ const EDITFORGE_QUESTS = [
     pillarIcon: "monitor",
     difficulty: "Intermediate",
     targetTools: ["Premiere Pro", "After Effects", "CapCut"],
-    estimatedMinutes: 25,
-    xpReward: 160,
     objective: "Stworzenie szablonu montażowego w pionie (1080x1920), w którym żaden element typografii ani kluczowy obiekt nie jest zasłaniany przez elementy interfejsu TikToka i Reels.",
     constraints: [
       "Tekst musi znajdować się w strefie bezpiecznej: min. 140px od góry, 240px od dołu i 90px od prawej krawędzi.",
@@ -628,5 +588,7 @@ const ROSETTA_STONE = [
 ];
 
 if (typeof module !== "undefined" && module.exports) {
-  module.exports = { EDITFORGE_QUESTS, ROSETTA_STONE };
+  module.exports = { SKROILL_QUESTS, ROSETTA_STONE };
 }
+
+

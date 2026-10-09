@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pl" class="overflow-x-hidden">
 <head>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50' y='80' font-family='sans-serif' font-size='90' font-weight='bold' fill='%235D001E' text-anchor='middle'>S</text></svg>">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EDITFORGE &mdash; Editorial Video Editing Dojo</title>
+  <title>SKROILL &mdash; Editorial Video Editing Dojo</title>
   
   <!-- Google Fonts: Syne (Brutalist/Editorial Headline), Plus Jakarta Sans, JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -61,7 +62,7 @@
           </div>
           <div>
             <div class="flex items-center gap-2">
-              <span class="font-display font-black tracking-tight text-lg sm:text-xl text-brand-wine uppercase">EDIT<span class="text-brand-crimson">FORGE</span></span>
+              <span class="font-display font-black tracking-tight text-lg sm:text-xl text-brand-wine uppercase">SKRO<span class="text-brand-crimson">ILL</span></span>
               <span class="hidden sm:inline-block text-[9px] font-mono tracking-widest px-1.5 py-0.5 bg-brand-wine text-brand-stone uppercase font-bold">NLE.01</span>
             </div>
             <p class="text-[10px] font-mono tracking-wider text-brand-crimson uppercase hidden sm:block">Mobile &rarr; Desktop Editing Discipline</p>
@@ -69,18 +70,22 @@
         </a>
       </div>
 
-      <!-- User XP & System Actions -->
+      <!-- System Actions -->
       <div class="flex items-center gap-2 sm:gap-4">
-        <!-- XP & Level Badge -->
-        <div class="flex items-center border border-brand-wine bg-white text-xs font-mono">
-          <div class="hidden sm:flex px-3 py-1.5 border-r border-brand-wine items-center gap-1.5 bg-brand-blush/20">
-            <span class="text-[10px] text-brand-wine uppercase">LVL:</span>
-            <span id="userLevelTitle" class="font-bold text-brand-wine">Apprentice (2)</span>
-          </div>
-          <div class="px-2 sm:px-3 py-1.5 bg-brand-wine text-brand-stone flex items-center gap-1 font-bold">
-            <span id="userTotalXp">450</span>
-            <span class="text-[10px] text-brand-blush">XP</span>
-          </div>
+
+
+                        <!-- Language Switcher -->
+        <select id="langSelect" class="bg-brand-stone border border-brand-wine text-brand-wine text-xs font-mono font-bold px-2 py-1 focus:outline-none">
+          <option value="uk">UA</option>
+          <option value="pl" selected>PL</option>
+          <option value="en">EN</option>
+        </select>
+
+        <!-- Auth Status & Login -->
+        <div id="authContainer" class="flex items-center gap-2">
+          <span id="userEmailDisplay" class="text-[10px] font-mono text-brand-wine hidden sm:block">Gosc</span>
+          <button id="openAuthModalBtn" class="px-4 py-1.5 border border-brand-wine text-brand-wine text-xs font-mono font-bold hover:bg-brand-wine hover:text-white transition-colors">Zaloguj</button>
+          <button id="logoutBtn" class="hidden px-4 py-1.5 border border-brand-wine bg-brand-wine text-white text-xs font-mono font-bold hover:bg-brand-crimson transition-colors">Wyloguj</button>
         </div>
 
         <!-- Settings Button -->
@@ -144,7 +149,6 @@
                 SND-01 &bull; Sound Design
               </span>
               <span class="text-brand-crimson font-mono flex items-center gap-1 font-bold whitespace-nowrap">
-                &bull; 20 MINUT
               </span>
             </div>
 
@@ -191,7 +195,6 @@
 
           <div class="pt-8 border-t border-brand-blush/20 flex items-center justify-between text-xs font-mono text-brand-blush relative z-10">
             <span>MOBILE &bull; DESKTOP</span>
-            <span class="font-bold text-brand-pink">+150 XP NAGRODY</span>
           </div>
         </div>
 
@@ -331,10 +334,15 @@
               </p>
             </div>
 
-            <div id="selectedFileInfo" class="hidden items-center gap-2 px-3 py-1 bg-brand-wine text-brand-stone text-xs font-mono">
-              <i data-lucide="video" class="w-4 h-4"></i>
-              <span id="selectedFileName">plik.mp4</span>
-              <span id="selectedFileSize" class="text-brand-blush">(0 MB)</span>
+            <div id="selectedFileInfo" class="hidden items-center justify-between px-4 py-2 bg-brand-wine text-brand-stone text-xs font-mono w-full max-w-sm mt-4 relative z-20" onclick="event.stopPropagation()">
+              <div class="flex items-center gap-2">
+                <i data-lucide="video" class="w-4 h-4"></i>
+                <span id="selectedFileName">plik.mp4</span>
+                <span id="selectedFileSize" class="text-brand-blush">(0 MB)</span>
+              </div>
+              <button id="clearFileBtn" class="text-brand-blush hover:text-white transition-colors" title="Usuń plik">
+                <i data-lucide="x-circle" class="w-4 h-4"></i>
+              </button>
             </div>
           </div>
         </div>
@@ -417,10 +425,7 @@
             <p id="statCompletedCount" class="text-3xl font-display font-black text-brand-wine">0 / 20</p>
           </div>
 
-          <div class="p-5 border border-brand-wine bg-brand-stone space-y-1">
-            <span class="text-[10px] font-mono uppercase tracking-wider text-brand-crimson font-bold block">Zdobyte Doświadczenie</span>
-            <p id="statTotalXp" class="text-3xl font-display font-black text-brand-crimson">450 XP</p>
-          </div>
+          
 
           <div class="p-5 border border-brand-wine bg-brand-stone space-y-1">
             <span class="text-[10px] font-mono uppercase tracking-wider text-brand-crimson font-bold block">Czas Na Osi Czasu</span>
@@ -454,8 +459,6 @@
           <div class="flex flex-wrap items-center gap-2 text-xs font-mono">
             <span id="modalPillarBadge" class="px-2 py-0.5 bg-brand-wine text-brand-stone font-bold uppercase">Sound Design</span>
             <span id="modalDifficultyBadge" class="px-2 py-0.5 border border-brand-wine text-brand-wine font-semibold uppercase">Intermediate</span>
-            <span id="modalTimeBadge" class="text-brand-crimson font-mono">20 min</span>
-            <span id="modalXpBadge" class="text-brand-pink font-bold font-mono">+150 XP</span>
           </div>
           <h3 id="modalTitle" class="text-2xl sm:text-3xl font-display font-black text-brand-wine uppercase leading-tight">The 4-Layer Impact Rule</h3>
           <p id="modalSubtitle" class="text-xs font-sans text-brand-crimson font-medium">Architektura uderzenia i składowe częstotliwości</p>
@@ -550,7 +553,7 @@
             Anuluj
           </button>
           <button id="submitQuestBtn" class="px-6 py-2.5 bg-brand-wine hover:bg-brand-crimson text-brand-stone font-display font-bold text-xs uppercase tracking-wider shadow-[3px_3px_0px_#EE4C7C] transition-all">
-            Zapisz w Dzienniku (+XP)
+            Zapisz w Dzienniku
           </button>
         </div>
       </div>
@@ -604,7 +607,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="flex items-center gap-3">
         <div class="w-5 h-5 bg-brand-wine text-brand-stone flex items-center justify-center font-bold text-[10px]">E</div>
-        <span><strong>EDITFORGE</strong> &mdash; Projekt rozwoju umiejętności montażu wideo.</span>
+        <span><strong>SKROILL</strong> &mdash; Projekt rozwoju umiejętności montażu wideo.</span>
       </div>
       <div class="flex items-center gap-4 text-[11px]">
         <span>CAPCUT &bull; ALIGHT MOTION &bull; PREMIERE &bull; AFTER EFFECTS</span>
@@ -619,5 +622,37 @@
   <script>
     lucide.createIcons();
   </script>
+  <!-- ================= AUTHENTICATION MODAL ================= -->
+  <div id="authModal" class="fixed inset-0 z-50 bg-brand-ink/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white border-2 border-brand-wine w-full max-w-sm shadow-[8px_8px_0px_#5D001E] overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+      <div class="p-4 border-b border-brand-wine flex items-center justify-between bg-brand-stone">
+        <h3 class="font-display font-black text-brand-wine uppercase">Logowanie</h3>
+        <button id="closeAuthModalBtn" class="w-8 h-8 flex items-center justify-center text-brand-wine hover:bg-brand-wine hover:text-white transition-colors">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <div class="p-6 space-y-4 text-xs font-mono">
+        <div>
+          <label class="block text-brand-wine font-bold uppercase mb-1">Email</label>
+          <input type="email" id="authEmailInput" class="w-full border border-brand-wine p-2 bg-brand-stone/30 focus:outline-none focus:border-brand-pink" placeholder="adres@email.com">
+        </div>
+        <div>
+          <label class="block text-brand-wine font-bold uppercase mb-1">Hasło</label>
+          <input type="password" id="authPasswordInput" class="w-full border border-brand-wine p-2 bg-brand-stone/30 focus:outline-none focus:border-brand-pink" placeholder="********">
+        </div>
+        <div id="authErrorMsg" class="text-brand-crimson font-bold hidden"></div>
+        <div class="pt-2 flex gap-2">
+          <button id="loginBtn" class="flex-1 py-2.5 bg-brand-wine text-white font-bold uppercase hover:bg-brand-crimson transition-colors">Zaloguj</button>
+          <button id="registerBtn" class="flex-1 py-2.5 border border-brand-wine text-brand-wine font-bold uppercase hover:bg-brand-blush/20 transition-colors">Zarejestruj</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
+
+
+
+
+
+

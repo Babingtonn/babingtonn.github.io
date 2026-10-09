@@ -25,7 +25,7 @@
 /* Halftone Dot Matrix Pattern from Culture.pl Reference Image */
 .halftone-bg {
   background-color: #ffffff;
-  background-image: radial-gradient(#9A1750 1.2px, transparent 1.2px);
+  background-image: radial-gradient(rgba(154, 23, 80, 0.2) 1.2px, transparent 1.2px);
   background-size: 14px 14px;
   background-position: 0 0, 7px 7px;
 }
