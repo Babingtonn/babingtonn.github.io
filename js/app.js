@@ -138,6 +138,60 @@
 
     state.user.completedQuests = state.user.logs.map(l => l.questId);  }
 
+    // ================= i18n TRANSLATIONS =================
+  const translations = {
+    'uk': {
+      'header_subtitle': 'Мобільна &rarr; Десктопна Дисципліна',
+      'tab_quests': 'Монтажні Виклики',
+      'tab_logbook': 'Журнал Прогресу',
+      'login_btn': 'Увійти',
+      'logout_btn': 'Вийти'
+    },
+    'pl': {
+      'header_subtitle': 'Mobile &rarr; Desktop Editing Discipline',
+      'tab_quests': 'Wyzwania Montażowe',
+      'tab_logbook': 'Dziennik Postępów',
+      'login_btn': 'Zaloguj się',
+      'logout_btn': 'Wyloguj'
+    },
+    'en': {
+      'header_subtitle': 'Mobile &rarr; Desktop Editing Discipline',
+      'tab_quests': 'Editing Quests',
+      'tab_logbook': 'Progress Logbook',
+      'login_btn': 'Login',
+      'logout_btn': 'Logout'
+    }
+  };
+
+  function changeLanguage(lang) {
+    state.lang = lang;
+    localStorage.setItem('SKROILL_lang', lang);
+    applyTranslations();
+  }
+
+  function applyTranslations() {
+    const dict = translations[state.lang] || translations['uk'];
+    const qTab = document.querySelector('[data-tab="tab-quests"] span:nth-child(2)');
+    if (qTab) qTab.innerHTML = dict['tab_quests'];
+    const lTab = document.querySelector('[data-tab="tab-logbook"] span:nth-child(2)');
+    if (lTab) lTab.innerHTML = dict['tab_logbook'];
+    document.documentElement.lang = state.lang;
+  }
+
+  function initI18n() {
+    const select = document.getElementById("langSelect");
+    if (!select) return;
+    const savedLang = localStorage.getItem('SKROILL_lang') || 'uk';
+    select.value = savedLang;
+    state.lang = savedLang;
+    
+    select.addEventListener("change", (e) => {
+      changeLanguage(e.target.value);
+    });
+    
+    applyTranslations();
+  }
+
   function initTabs() {
     const tabBtns = document.querySelectorAll(".nav-tab");
     tabBtns.forEach(btn => {
@@ -812,7 +866,7 @@ ${state.user.logs.map((l, i) => `
 `;
   }
 
-    // ================= AUTHENTICATION =================
+      // ================= AUTHENTICATION =================
   async function initAuth() {
     const authModal = document.getElementById("authModal");
     const openBtn = document.getElementById("openAuthModalBtn");
@@ -825,26 +879,11 @@ ${state.user.logs.map((l, i) => `
     const errorMsg = document.getElementById("authErrorMsg");
     const emailDisplay = document.getElementById("userEmailDisplay");
 
-    const client = getSupabaseClient();
-    if (!client) return;
-
-    // Check active session
-    const { data: { session } } = await client.auth.getSession();
-    if (session) {
-      handleLoginSuccess(session.user);
-    }
-
-    // Listen for auth changes
-    client.auth.onAuthStateChange((event, session) => {
-      if (session) {
-        handleLoginSuccess(session.user);
-      } else {
-        handleLogout();
-      }
-    });
-
     if (openBtn) openBtn.onclick = () => { authModal.classList.remove("hidden"); authModal.classList.add("flex"); errorMsg.classList.add("hidden"); };
     if (closeBtn) closeBtn.onclick = () => { authModal.classList.add("hidden"); authModal.classList.remove("flex"); };
+
+    const client = getSupabaseClient();
+    if (!client) return;
 
     if (logoutBtn) {
       logoutBtn.onclick = async () => {
@@ -884,6 +923,22 @@ ${state.user.logs.map((l, i) => `
           errorMsg.classList.add("text-green-600");
         }
       };
+    }
+
+    try {
+      const { data: { session } } = await client.auth.getSession();
+      if (session) {
+        handleLoginSuccess(session.user);
+      }
+      client.auth.onAuthStateChange((event, session) => {
+        if (session) {
+          handleLoginSuccess(session.user);
+        } else {
+          handleLogout();
+        }
+      });
+    } catch (e) {
+      console.warn("Auth check failed:", e);
     }
   }
 
@@ -947,7 +1002,7 @@ ${state.user.logs.map((l, i) => `
   }
 
   // ================= BOOTSTRAP APPLICATION =================
-  function init() {
+  function init() { try {
     initStorage();
     initI18n();
     initTabs();
@@ -961,7 +1016,7 @@ ${state.user.logs.map((l, i) => `
     initExportLogbook();
     initSettings();
     initAuth();
-    syncFromSupabase();
+    syncFromSupabase(); } catch(err) { document.body.innerHTML += '<div style="background:red;color:white;position:fixed;top:0;left:0;z-index:9999;padding:20px;">' + err.stack + '</div>'; }
   }
 
   // Run on DOM loaded
@@ -971,6 +1026,9 @@ ${state.user.logs.map((l, i) => `
     init();
   }
 })();
+
+
+
 
 
 
