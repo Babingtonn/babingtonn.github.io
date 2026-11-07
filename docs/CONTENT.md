@@ -80,15 +80,15 @@
 * **Головний заголовок секції (H2):**  
   `Więcej niż strzyżenie. Świadome rzemiosło.`
 
-* **Основний текст секції (3 абзаци):**
+* **Основний текст секції (3 абзаци, скорочено на ~29% для покращення ергономіки та читабельності):**
   > **Akapit 1 (Klimat i filozofia):**  
-  > BLACKLINE BARBER powstał z myślą o mężczyznach, którzy oczekują czegoś więcej niż pośpiesznej usługi. Tworzymy przestrzeń, w której surowa, minimalistyczna estetyka łączy się ze spokojem i pełnym skupieniem na Twoim wizerunku. Tutaj czas zwalnia, a rzemiosło fryzjerskie wraca do swoich najlepszych korzeni.
+  > BLACKLINE BARBER to przestrzeń dla mężczyzn oczekujących bezkompromisowej jakości. Łączymy surową estetykę ze spokojem i pełnym skupieniem na Twoim wizerunku. Tutaj rzemiosło fryzjerskie wraca do swoich najlepszych korzeni.
 
   > **Akapit 2 (Precyzja i technika):**  
-  > Nie wierzymy w szablonowe rozwiązania ani powtarzalne schematy. Każde strzyżenie oraz modelowanie zarostu dobieramy indywidualnie — uwzględniając rysy twarzy, strukturę włosa i Twój codzienny styl życia. Korzystamy wyłącznie ze sprawdzonych technik barberskich oraz starannie wyselekcjonowanych kosmetyków pielęgnacyjnych.
+  > Unikamy szablonowych rozwiązań. Każde strzyżenie i modelowanie zarostu dobieramy indywidualnie — do rysów twarzy, rodzaju włosa i Twojego stylu. Pracujemy na sprawdzonych technikach barberskich i selektywnych kosmetykach męskich.
 
   > **Akapit 3 (Doświadczenie i dbałość o detal):**  
-  > Zadbana fryzura i symetryczna broda to nie kwestia przypadku, lecz precyzji co do milimetra. Dbamy o każdy szczegół wizyty: od rzetelnej konsultacji, przez czyste kontury brzytwy, aż po finalną stylizację. Wychodzisz z pewnością, że Twój wygląd jest dokładnie taki, jak powinien być.
+  > Dopracowana fryzura i czysta linia brody to kwestia milimetrów. Dbamy o każdy detal: od wstępnej konsultacji, przez precyzyjne cięcie brzytwą, po finalną stylizację. Zapewniamy formę, na której możesz polegać.
 
 * **Три ключові стовпи бренду (Brand Values):**
   1. **Precyzja geometrii** — Czyste linie karku, dopracowane cieniowanie i kontury wykonane z chirurgiczną dokładnością.

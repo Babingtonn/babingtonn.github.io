@@ -3,6 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
   <title>BLACKLINE BARBER — Męskie strzyżenie i pielęgnacja brody | Projekt demonstracyjny</title>
   <meta name="description" content="Odkryj BLACKLINE BARBER — demonstracyjny serwis nowoczesnego męskiego fryzjerstwa. Precyzyjne strzyżenie włosów, stylizacja brody i męska estetyka w minimalistycznym wydaniu.">
 
@@ -42,7 +46,7 @@
   </header>
 
   <!-- GŁÓWNA ZAWARTOŚĆ STRONY -->
-  <main id="main-content">
+  <main id="main-content" tabindex="-1">
 
     <!-- 1. HERO — PIERWSZY EKRAN -->
     <section id="hero" aria-labelledby="hero-title">
@@ -59,11 +63,9 @@
         </div>
       </div>
 
-      <!-- Semantyczny kontener na przyszłą fotografię Hero -->
+      <!-- Semantyczny kontener na fotografię Hero -->
       <figure class="hero-media" aria-label="Fotografia prezentacyjna salonu">
-        <div class="image-placeholder hero-image-placeholder" role="img" aria-label="Stanowisko barberskie i precyzyjna praca fryzjera męskiego (fotografia demonstracyjna)">
-          <span>[Zdjęcie demonstracyjne: Stanowisko barberskie i praca mistrza]</span>
-        </div>
+        <img src="assets/images/hero-cutting.webp" alt="Barber precyzyjnie strzyże męskie włosy nożyczkami w stonowanym oświetleniu salonu" width="1000" height="1250" fetchpriority="high">
         <figcaption>Fotografia demonstracyjna — klimat pracy w BLACKLINE BARBER</figcaption>
       </figure>
     </section>
@@ -77,13 +79,13 @@
 
       <div class="about-text">
         <p>
-          BLACKLINE BARBER powstał z myślą o mężczyznach, którzy oczekują czegoś więcej niż pośpiesznej usługi. Tworzymy przestrzeń, w której surowa, minimalistyczna estetyka łączy się ze spokojem i pełnym skupieniem na Twoim wizerunku. Tutaj czas zwalnia, a rzemiosło fryzjerskie wraca do swoich najlepszych korzeni.
+          BLACKLINE BARBER to przestrzeń dla mężczyzn oczekujących bezkompromisowej jakości. Łączymy surową estetykę ze spokojem i pełnym skupieniem na Twoim wizerunku. Tutaj rzemiosło fryzjerskie wraca do swoich najlepszych korzeni.
         </p>
         <p>
-          Nie wierzymy w szablonowe rozwiązania ani powtarzalne schematy. Każde strzyżenie oraz modelowanie zarostu dobieramy indywidualnie — uwzględniając rysy twarzy, strukturę włosa i Twój codzienny styl życia. Korzystamy wyłącznie ze sprawdzonych technik barberskich oraz starannie wyselekcjonowanych kosmetyków pielęgnacyjnych.
+          Unikamy szablonowych rozwiązań. Każde strzyżenie i modelowanie zarostu dobieramy indywidualnie — do rysów twarzy, rodzaju włosa i Twojego stylu. Pracujemy na sprawdzonych technikach barberskich i selektywnych kosmetykach męskich.
         </p>
         <p>
-          Zadbana fryzura i symetryczna broda to nie kwestia przypadku, lecz precyzji co do milimetra. Dbamy o każdy szczegół wizyty: od rzetelnej konsultacji, przez czyste kontury brzytwy, aż po finalną stylizację. Wychodzisz z pewnością, że Twój wygląd jest dokładnie taki, jak powinien być.
+          Dopracowana fryzura i czysta linia brody to kwestia milimetrów. Dbamy o każdy detal: od wstępnej konsultacji, przez precyzyjne cięcie brzytwą, po finalną stylizację. Zapewniamy formę, na której możesz polegać.
         </p>
       </div>
 
@@ -185,60 +187,44 @@
       </header>
 
       <div class="gallery-grid">
-        <!-- 8 semantycznych kontenerów na przyszłe fotografie -->
+        <!-- 8 semantycznych fotografii rzemiosła barberskiego -->
         <figure class="gallery-item">
-          <div class="image-placeholder" role="img" aria-label="Minimalistyczne wnętrze salonu barberskiego ze skórzanym fotelem">
-            <span>[Foto 1: Wnętrze ze skórzanym fotelem]</span>
-          </div>
+          <img src="assets/images/gallery-01-interior.webp" alt="Nowoczesne, minimalistyczne fotele barberskie w przestronnym wnętrzu salonu" width="640" height="800" loading="lazy" decoding="async">
           <figcaption>Wnętrze i przestrzeń salonu</figcaption>
         </figure>
 
         <figure class="gallery-item">
-          <div class="image-placeholder" role="img" aria-label="Precyzyjne strzyżenie męskich włosów nożyczkami i grzebieniem">
-            <span>[Foto 2: Precyzyjne strzyżenie nożyczkami]</span>
-          </div>
+          <img src="assets/images/gallery-02-cutting.webp" alt="Precyzyjne cięcie męskich włosów nożyczkami i grzebieniem" width="640" height="800" loading="lazy" decoding="async">
           <figcaption>Warsztat i technika cięcia</figcaption>
         </figure>
 
         <figure class="gallery-item">
-          <div class="image-placeholder" role="img" aria-label="Modelowanie i trymowanie męskiej brody">
-            <span>[Foto 3: Modelowanie męskiej brody]</span>
-          </div>
+          <img src="assets/images/gallery-03-beard.webp" alt="Barber trymuje i modeluje linię męskiego zarostu" width="640" height="800" loading="lazy" decoding="async">
           <figcaption>Pielęgnacja i kontur brody</figcaption>
         </figure>
 
         <figure class="gallery-item">
-          <div class="image-placeholder" role="img" aria-label="Klasyczne golenie karku brzytwą">
-            <span>[Foto 4: Tradycyjne golenie brzytwą]</span>
-          </div>
+          <img src="assets/images/gallery-04-shave.webp" alt="Tradycyjny rytuał golenia karku i zarostu brzytwą z ciepłą pianą" width="640" height="800" loading="lazy" decoding="async">
           <figcaption>Klasyczny rytuał golenia</figcaption>
         </figure>
 
         <figure class="gallery-item">
-          <div class="image-placeholder" role="img" aria-label="Zestaw profesjonalnych narzędzi barberskich na blacie">
-            <span>[Foto 5: Rzemieślnicze narzędzia barberskie]</span>
-          </div>
+          <img src="assets/images/gallery-05-tools.webp" alt="Profesjonalne stalowe nożyczki, maszynka i brzytwa barberska na ciemnym blacie" width="640" height="800" loading="lazy" decoding="async">
           <figcaption>Stalowe narzędzia rzemieślnicze</figcaption>
         </figure>
 
         <figure class="gallery-item">
-          <div class="image-placeholder" role="img" aria-label="Męskie kosmetyki do stylizacji i pielęgnacji zarostu">
-            <span>[Foto 6: Kosmetyki i olejki pielęgnacyjne]</span>
-          </div>
+          <img src="assets/images/gallery-06-cosmetics.webp" alt="Męskie kosmetyki do pielęgnacji brody i włosów w buteleczkach z ciemnego szkła" width="640" height="800" loading="lazy" decoding="async">
           <figcaption>Wyselekcjonowane kosmetyki męskie</figcaption>
         </figure>
 
         <figure class="gallery-item">
-          <div class="image-placeholder" role="img" aria-label="Męska fryzura z precyzyjnym cieniowaniem typu fade">
-            <span>[Foto 7: Stylizacja typu skin fade]</span>
-          </div>
+          <img src="assets/images/gallery-07-fade.webp" alt="Męska fryzura z płynnym cieniowaniem typu skin fade i dopracowaną linią konturu" width="640" height="800" loading="lazy" decoding="async">
           <figcaption>Geometria cieniowania fade</figcaption>
         </figure>
 
         <figure class="gallery-item">
-          <div class="image-placeholder" role="img" aria-label="Detal wykończenia linii włosów na karku">
-            <span>[Foto 8: Zbliżenie na detal i linię karku]</span>
-          </div>
+          <img src="assets/images/gallery-08-neckline.webp" alt="Detal czystego wykończenia linii włosów na karku wykonany brzytwą" width="640" height="800" loading="lazy" decoding="async">
           <figcaption>Czystość linii wykończenia</figcaption>
         </figure>
       </div>
@@ -304,10 +290,10 @@
 
         <div class="booking-action-block">
           <!-- W trybie demonstracyjnym przycisk bezpiecznie informuje o statusie projektu -->
-          <button type="button" class="btn btn-primary" aria-describedby="demo-booking-explanation">
+          <a href="#demo-booking-explanation" class="btn btn-primary" aria-describedby="demo-booking-explanation">
             Umów wizytę
-          </button>
-          <p id="demo-booking-explanation" class="demo-explanation">
+          </a>
+          <p id="demo-booking-explanation" class="demo-explanation" tabindex="-1">
             <small>
               <strong>Projekt demonstracyjny:</strong> System bezpośredniej rezerwacji wizyt online (Booksy) jest nieaktywny w trybie demonstracyjnym. W wersji produkcyjnej ten przycisk przekierowuje bezpośrednio do zweryfikowanego profilu salonu w serwisie Booksy, umożliwiając natychmiastowy wybór terminu i barbera.
             </small>

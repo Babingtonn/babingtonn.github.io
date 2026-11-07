@@ -1,0 +1,939 @@
+/* BLACKLINE BARBER — mobile first, no build step required. */
+
+/* 1. Design tokens */
+:root {
+  color-scheme: dark;
+  --color-bg: #111111;
+  --color-surface: #1a1a1a;
+  --color-surface-hover: #222222;
+  --color-surface-raised: #282828;
+  --color-text-primary: #f5f2eb;
+  --color-text-muted: #a8a39d;
+  --color-text-inverse: #111111;
+  --color-accent: #c5a059;
+  --color-accent-hover: #d4b26f;
+  --color-accent-active: #b59049;
+  --color-border: #2e2c29;
+  --color-border-focus: #c5a059;
+  --color-header-blur: rgb(17 17 17 / 92%);
+  --font-heading: "Montserrat", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --text-body: clamp(0.95rem, 0.5vw + 0.8rem, 1.0625rem);
+  --text-h1: clamp(1.875rem, 5vw + 0.5rem, 3.25rem);
+  --text-h2: clamp(1.6rem, 3vw + 0.5rem, 2.35rem);
+  --text-h3: clamp(1.2rem, 2vw + 0.2rem, 1.45rem);
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  --space-4xl: 6rem;
+  --space-5xl: 7.5rem;
+  --gutter: 1rem;
+  --content-width: 75rem;
+  --section-space: var(--space-3xl);
+  --section-gap: var(--space-xl);
+  --card-padding: 1.25rem;
+  --radius: 0.25rem;
+  --transition: 180ms ease;
+  --anchor-offset: var(--space-lg);
+}
+
+/* 2. Foundations and keyboard access */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-block-start: var(--anchor-offset);
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, p, figure, dl, dd {
+  margin: 0;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-heading);
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
+h1 {
+  font-size: var(--text-h1);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: var(--text-h2);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-size: var(--text-h3);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+p, address, dd, dt, figcaption {
+  overflow-wrap: anywhere;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  -webkit-tap-highlight-color: rgb(197 160 89 / 20%);
+}
+
+small {
+  font-size: inherit;
+}
+
+strong {
+  font-weight: 600;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-text-inverse);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 4px;
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 200;
+  top: var(--space-md);
+  left: var(--space-md);
+  max-width: calc(100% - 2 * var(--space-md));
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius);
+  background: var(--color-text-primary);
+  color: var(--color-text-inverse);
+  transform: translateY(calc(-100% - 2rem));
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* 3. Shared layout and components */
+.header-container,
+main > section,
+.footer-container {
+  width: min(var(--content-width), calc(100% - 2 * var(--gutter)));
+  margin-inline: auto;
+}
+
+main > section {
+  padding-block: var(--section-space);
+}
+
+main > section + section {
+  border-top: 1px solid var(--color-border);
+}
+
+.section-header {
+  max-width: 44rem;
+  margin-bottom: var(--section-gap);
+}
+
+.eyebrow {
+  margin-bottom: var(--space-md);
+  color: var(--color-accent);
+  font-family: var(--font-heading);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.section-intro {
+  max-width: 38rem;
+  margin-top: var(--space-lg);
+  color: var(--color-text-muted);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  max-width: 100%;
+  padding: var(--space-sm) var(--space-lg);
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  font-family: var(--font-heading);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: center;
+  transition: background-color var(--transition), color var(--transition),
+    border-color var(--transition), transform var(--transition);
+}
+
+.btn-primary {
+  background: var(--color-accent);
+  color: var(--color-text-inverse);
+}
+
+.btn-primary:focus-visible {
+  outline-color: var(--color-text-primary);
+}
+
+.btn-secondary {
+  border-color: var(--color-border);
+  color: var(--color-text-primary);
+}
+
+.disclaimer,
+.demo-tag,
+.contact-notice,
+.demo-explanation,
+.footer-social,
+.footer-legal {
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+  line-height: 1.65;
+}
+
+.disclaimer {
+  margin-top: var(--space-lg);
+}
+
+/* 4. Header: visible navigation until the JavaScript stage.
+   A non-sticky mobile header leaves room for content and enlarged text. */
+body > header {
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg);
+}
+
+.header-container {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: var(--space-md);
+  padding-top: var(--space-sm);
+}
+
+.brand-logo,
+.footer-logo {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.3;
+}
+
+.brand-logo {
+  display: block;
+  min-height: 2.75rem;
+  max-width: 9rem;
+  padding-block: var(--space-2xs);
+}
+
+.brand-logo span {
+  color: var(--color-accent);
+}
+
+.header-cta .btn {
+  min-height: 2.75rem;
+  padding-inline: var(--space-sm);
+  font-size: 0.8125rem;
+}
+
+.header-container > nav {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  margin-top: var(--space-xs);
+  border-top: 1px solid var(--color-border);
+}
+
+nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.header-container nav ul {
+  justify-content: space-between;
+}
+
+nav a {
+  display: flex;
+  align-items: center;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  padding: var(--space-xs);
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color var(--transition);
+}
+
+.header-container nav a {
+  position: relative;
+}
+
+.header-container nav a::after {
+  position: absolute;
+  right: var(--space-xs);
+  bottom: var(--space-xs);
+  left: var(--space-xs);
+  height: 2px;
+  background: var(--color-accent);
+  content: "";
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--transition);
+}
+
+/* 5. Hero and image slots. Replace a placeholder with an img at stage 6. */
+#hero {
+  display: grid;
+  gap: var(--space-xl);
+  padding-top: var(--space-2xl);
+}
+
+.hero-content,
+.hero-media,
+.about-text,
+.about-values,
+.services-list,
+.gallery-item,
+.contact-card {
+  min-width: 0;
+}
+
+.hero-content h1 {
+  max-width: 11em;
+}
+
+.hero-subtitle {
+  max-width: 32.5rem;
+  margin-top: var(--space-lg);
+  color: var(--color-text-muted);
+}
+
+.hero-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-top: var(--space-xl);
+}
+
+.image-placeholder {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  padding: var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  text-align: center;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.image-placeholder span {
+  max-width: 26ch;
+}
+
+.hero-image-placeholder,
+.hero-media > img {
+  aspect-ratio: 16 / 10;
+}
+
+.hero-media > img,
+.gallery-item > img,
+.image-placeholder > img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: var(--image-position, 50% 50%);
+  border-radius: var(--radius);
+}
+
+.gallery-item > img {
+  aspect-ratio: 4 / 5;
+}
+
+.image-placeholder:has(> img) {
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+}
+
+.image-placeholder > img {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+}
+
+figcaption {
+  margin-top: var(--space-sm);
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.hero-media figcaption {
+  max-width: 42ch;
+}
+
+/* 6. About */
+.about-text {
+  max-width: 65ch;
+  color: var(--color-text-muted);
+}
+
+.about-text p + p {
+  margin-top: var(--space-lg);
+}
+
+.about-values {
+  display: grid;
+  gap: var(--space-sm);
+  margin-top: var(--space-xl);
+}
+
+.value-card,
+.contact-card {
+  padding: var(--card-padding);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+
+.value-card h3 {
+  position: relative;
+  padding-left: var(--space-md);
+  font-size: 1.125rem;
+}
+
+.value-card h3::before {
+  position: absolute;
+  top: 0.3em;
+  left: 0;
+  width: 2px;
+  height: 0.75rem;
+  background: var(--color-accent);
+  content: "";
+}
+
+.value-card p {
+  margin-top: var(--space-sm);
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+/* 7. Services: quiet menu rows, clear prices */
+.services-list {
+  border-top: 1px solid var(--color-border);
+}
+
+.service-item {
+  padding-block: var(--space-lg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.service-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: var(--space-xs) var(--space-md);
+}
+
+.service-header h3 {
+  font-size: clamp(1.125rem, 1vw + 0.8rem, 1.375rem);
+}
+
+.service-price {
+  color: var(--color-accent);
+  font-family: var(--font-heading);
+  font-size: clamp(1.15rem, 1.5vw + 0.5rem, 1.35rem);
+  font-weight: 700;
+  line-height: 1.3;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.service-description {
+  max-width: 68ch;
+  margin-top: var(--space-sm);
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+.service-meta {
+  margin-top: var(--space-md);
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+}
+
+.service-time {
+  display: inline-block;
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+
+.services-cta {
+  margin-top: var(--space-xl);
+  text-align: center;
+}
+
+.services-cta .btn {
+  width: 100%;
+}
+
+/* 8. Gallery */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-lg) var(--space-sm);
+}
+
+.gallery-item {
+  overflow: hidden;
+  border-radius: var(--radius);
+}
+
+.gallery-item .image-placeholder {
+  padding: var(--space-sm);
+  font-size: 0.75rem;
+}
+
+/* 9. Contact */
+.contact-grid {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+.contact-card h3 {
+  margin-bottom: var(--space-lg);
+  color: var(--color-text-primary);
+  font-size: 1.125rem;
+}
+
+.contact-card address {
+  font-style: normal;
+}
+
+.contact-card address p + p {
+  margin-top: var(--space-xs);
+}
+
+.contact-card dd {
+  color: var(--color-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.contact-card dt:not(:first-child) {
+  margin-top: var(--space-sm);
+}
+
+.placeholder-val {
+  display: block;
+  color: var(--color-text-primary);
+}
+
+.contact-card > p + p:not(.demo-tag) {
+  margin-top: var(--space-sm);
+}
+
+.demo-tag {
+  margin-top: auto;
+  padding-top: var(--space-lg);
+}
+
+.contact-notice {
+  max-width: 80ch;
+  margin-top: var(--space-lg);
+}
+
+.contact-notice strong,
+.demo-explanation strong {
+  color: var(--color-text-primary);
+}
+
+/* 10. Closing CTA and footer */
+.cta-container {
+  max-width: 45rem;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.cta-subtitle {
+  max-width: 38rem;
+  margin: var(--space-lg) auto 0;
+  color: var(--color-text-muted);
+}
+
+.booking-action-block {
+  margin-top: var(--space-xl);
+}
+
+.booking-action-block .btn {
+  width: 100%;
+  min-height: 3.25rem;
+}
+
+.demo-explanation {
+  margin-top: var(--space-xl);
+  padding: var(--card-padding);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+
+.demo-explanation:target {
+  border-color: var(--color-accent);
+}
+
+body > footer {
+  padding-block: var(--space-2xl) var(--space-xl);
+  border-top: 1px solid var(--color-border);
+}
+
+.footer-container {
+  display: grid;
+  gap: var(--space-xl);
+}
+
+.footer-logo strong {
+  font-weight: 700;
+}
+
+.footer-desc {
+  max-width: 42ch;
+  margin-top: var(--space-md);
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+.footer-nav ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-xs) var(--space-md);
+}
+
+.footer-nav a {
+  padding-inline: 0;
+}
+
+.footer-social {
+  max-width: 50ch;
+}
+
+.footer-legal {
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--color-border);
+}
+
+.footer-legal p + p {
+  margin-top: var(--space-sm);
+}
+
+/* 11. Responsive expansion */
+@media (min-width: 22.5rem) {
+  :root {
+    --gutter: 1.25rem;
+    --text-h1: clamp(2rem, 5vw + 0.5rem, 3.25rem);
+  }
+}
+
+@media (min-width: 48rem) {
+  :root {
+    --gutter: var(--space-xl);
+    --section-space: 5rem;
+    --section-gap: var(--space-2xl);
+    --card-padding: var(--space-lg);
+  }
+
+  .brand-logo {
+    display: block;
+    max-width: none;
+    min-height: auto;
+    padding-block: var(--space-sm);
+    font-size: 1.125rem;
+  }
+
+  .header-cta .btn {
+    padding-inline: var(--space-lg);
+    font-size: 0.875rem;
+  }
+
+  .header-container nav ul {
+    justify-content: center;
+    gap: var(--space-2xl);
+  }
+
+  #hero {
+    gap: var(--space-2xl);
+    padding-top: var(--section-space);
+  }
+
+  .hero-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+  }
+
+  .about-values {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-md);
+  }
+
+  .value-card:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .service-item {
+    padding-block: var(--space-xl);
+  }
+
+  .services-cta .btn,
+  .booking-action-block .btn {
+    width: auto;
+    min-width: 13rem;
+  }
+
+  .gallery-grid {
+    gap: var(--space-xl) var(--space-md);
+  }
+
+  .gallery-item .image-placeholder {
+    padding: var(--space-lg);
+    font-size: 0.8125rem;
+  }
+
+  .contact-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .contact-card:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .footer-container {
+    grid-template-columns: 1.2fr 1fr;
+    column-gap: var(--space-2xl);
+  }
+
+  .footer-social,
+  .footer-legal {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 64rem) {
+  :root {
+    --gutter: 2.5rem;
+    --section-space: var(--space-4xl);
+    --card-padding: 1.75rem;
+    --anchor-offset: 6rem;
+  }
+
+  body > header {
+    position: sticky;
+    z-index: 100;
+    top: 0;
+    background: var(--color-header-blur);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+
+  .header-container {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    min-height: 4.5rem;
+    padding-block: var(--space-xs);
+  }
+
+  .header-container > nav {
+    grid-column: auto;
+    grid-row: auto;
+    margin: 0;
+    border: 0;
+  }
+
+  .header-container nav ul {
+    gap: var(--space-md);
+  }
+
+  #hero {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    align-items: center;
+    gap: var(--space-2xl);
+    padding-block: var(--space-3xl) var(--section-space);
+  }
+
+  .hero-image-placeholder,
+  .hero-media > img {
+    aspect-ratio: 4 / 5;
+  }
+
+  #o-nas {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    column-gap: var(--space-3xl);
+  }
+
+  #o-nas .section-header {
+    grid-column: 1 / -1;
+  }
+
+  .about-values {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    margin-top: 0;
+  }
+
+  #uslugi {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.6fr);
+    column-gap: var(--space-3xl);
+    align-items: start;
+  }
+
+  #uslugi .section-header {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  #uslugi .services-list,
+  #uslugi .disclaimer,
+  #uslugi .services-cta {
+    grid-column: 2;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: 1.25rem;
+  }
+
+  .contact-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .contact-card:last-child {
+    grid-column: auto;
+  }
+
+  .footer-container {
+    grid-template-columns: 1.3fr 1fr;
+    column-gap: var(--space-4xl);
+  }
+
+  .footer-nav ul {
+    column-gap: var(--space-xl);
+  }
+}
+
+/* Short landscape screens must retain access to the content. */
+@media (min-width: 64rem) and (max-height: 32rem) {
+  body > header {
+    position: static;
+  }
+
+  :root {
+    --anchor-offset: var(--space-lg);
+  }
+}
+
+/* 12. Pointer interactions and motion preferences */
+@media (hover: hover) and (pointer: fine) {
+  .btn-primary:hover {
+    background: var(--color-accent-hover);
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  nav a:hover {
+    color: var(--color-text-primary);
+  }
+
+  .header-container nav a:hover::after {
+    transform: scaleX(1);
+  }
+
+  .gallery-item img {
+    transition: transform 250ms ease;
+  }
+
+  .gallery-item:hover img {
+    transform: scale(1.03);
+  }
+}
+
+/* Keep the pressed state after hover so it wins while the pointer is held. */
+.btn-primary:active {
+  background: var(--color-accent-active);
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .btn-primary:hover,
+  .gallery-item:hover img {
+    transform: none;
+  }
+}
